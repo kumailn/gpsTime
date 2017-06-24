@@ -33,7 +33,7 @@ import java.util.TimeZone;
 
 
 public class Main2Activity extends AppCompatActivity {
-    public static final String TAG = "com.example.ali.gpstime";
+    public static final String TAG = "com.kumailn.prayertime";
     public static final String defaultMethod = "0";
     PendingIntent pendingIntent;
     PendingIntent pendingIntent2;
@@ -58,10 +58,6 @@ public class Main2Activity extends AppCompatActivity {
     PendingIntent isha5Pending;
     PendingIntent isha6Pending;
     PendingIntent isha7Pending;
-
-
-
-
 
     AlarmManager alarm_manager;
     private Switch mySwitch;
@@ -166,7 +162,7 @@ public class Main2Activity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
+        //Save location of Home onClick (Raw coordinates)
         setHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,8 +186,8 @@ public class Main2Activity extends AppCompatActivity {
                 i2.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
                 i2.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
                 Intent i3 = new Intent(Main2Activity.this, Alarm_Reciever.class);
+                //Pending intent for each prayer notification because the time changes everyday - need a better solution.
                 pendingIntent = PendingIntent.getBroadcast(Main2Activity.this, 0, i2, PendingIntent.FLAG_UPDATE_CURRENT);
-
                 pendingIntent2 = PendingIntent.getBroadcast(Main2Activity.this, 1, i3, PendingIntent.FLAG_UPDATE_CURRENT);
                 pendingIntent3 = PendingIntent.getBroadcast(Main2Activity.this, 2, i2, 0);
                 pendingIntent4 = PendingIntent.getBroadcast(Main2Activity.this, 3, i2, 0);
@@ -215,8 +211,6 @@ public class Main2Activity extends AppCompatActivity {
                 isha6Pending = PendingIntent.getBroadcast(Main2Activity.this, 21, i2, 0);
                 isha7Pending = PendingIntent.getBroadcast(Main2Activity.this, 22, i2, 0);
 
-                //i2.putExtra("extra", "alarm on");
-                //i2.putExtra("rr", "yes");
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy/HH/mm");
                 Calendar cal2 = Calendar.getInstance();
                 String myday = (dateFormat.format(cal2.getTime()));

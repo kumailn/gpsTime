@@ -3,6 +3,7 @@ package com.kumailn.prayertime;
 import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -47,7 +48,6 @@ import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationListener;
-
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         final ImageView iv = (ImageView) findViewById(R.id.imageView2);
         final ImageView iv2 = (ImageView) findViewById(R.id.imageView3);
-
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRef);
         //mRecyclerView = (RecyclerView)findViewById(R.id.rec);
         //mSwipeRefreshLayout.setOnRefreshListener(this);
