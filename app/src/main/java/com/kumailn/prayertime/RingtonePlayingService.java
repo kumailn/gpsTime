@@ -7,7 +7,11 @@ import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -80,31 +84,47 @@ public class RingtonePlayingService extends Service  {
     public int onStartCommand(Intent intent, int flags, int startId){
 
 
+        Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/adhan");
+        Log.e("IN", "BROADCASTRECIEVER");
+        if (alarmUri == null)
+        {
+            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        }
+        Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), alarmUri);
+        ringtone.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
 
-        //LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if(ringtone.isPlaying()){
+            ringtone.stop();
+        }
+        else {
+            //LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
 
 
-        //googleApiClient.connect();
+            //googleApiClient.connect();
+
+            Log.e("com.example.ali.gpstime", "In Ringtone Service");
+
+            //String state = intent.getExtras().getString("extra");
+            //String state2 = intent.getExtras().getString("rr");
+
+            Log.e(String.valueOf(mn1), String.valueOf(mn2) + "GOOGLE");
+
+            //Log.e("com.example.ali.gpstime", "STARTING SOUND NOW");
 
 
+            ringtone.play();
 
-        Log.e("com.example.ali.gpstime", "In Ringtone Service");
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            Intent intent_main = new Intent(this.getApplicationContext(), Main2Activity.class);
 
-        //String state = intent.getExtras().getString("extra");
-        //String state2 = intent.getExtras().getString("rr");
+            PendingIntent pendingIntentMain = PendingIntent.getActivity(this, 0, intent_main, PendingIntent.FLAG_CANCEL_CURRENT);
+            Notification notificationPopup = new Notification.Builder(this).setContentTitle("Alarm is ON!").setContentText("Click here")
+                    .setContentIntent(pendingIntentMain).setAutoCancel(true).setSmallIcon(R.drawable.mosque).setPriority(Notification.PRIORITY_MAX)
+                    .setDefaults(Notification.DEFAULT_ALL).build();
+            notificationManager.notify(0, notificationPopup);
+        }
 
-        Log.e(String.valueOf(mn1), String.valueOf(mn2) + "GOOGLE");
 
-        //Log.e("com.example.ali.gpstime", "STARTING SOUND NOW");
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Intent intent_main = new Intent(this.getApplicationContext(), Main2Activity.class);
-
-        PendingIntent pendingIntentMain = PendingIntent.getActivity(this, 0, intent_main, PendingIntent.FLAG_CANCEL_CURRENT);
-        Notification notificationPopup = new Notification.Builder(this).setContentTitle("Alarm is ON!").setContentText("Click here")
-                .setContentIntent(pendingIntentMain).setAutoCancel(true).setSmallIcon(R.drawable.mosque).setPriority(Notification.PRIORITY_MAX)
-                .setDefaults(Notification.DEFAULT_ALL).build();
-        notificationManager.notify(0, notificationPopup);
 
         return START_STICKY;
     }

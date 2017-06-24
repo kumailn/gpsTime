@@ -3,10 +3,12 @@ package com.kumailn.prayertime;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -371,6 +373,14 @@ public class Main2Activity extends AppCompatActivity {
                 alarm_manager.cancel(pendingIntent2);
                 alarm_manager.cancel(pendingIntent3);
                 saveAlarm("off");
+
+                Intent abdc1 = new Intent(Main2Activity.this, RingtonePlayingService.class);
+                abdc1.putExtra("off", "t");
+                startService(abdc1);
+
+
+
+
                 Toast.makeText(Main2Activity.this, "Adhans Off", Toast.LENGTH_SHORT).show();
 
                 //i2.putExtra("extra", "alarm off");
