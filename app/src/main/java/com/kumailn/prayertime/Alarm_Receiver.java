@@ -22,7 +22,7 @@ import java.io.IOException;
  * Created by Kumail on 19-May-17.
  */
 
-public class Alarm_Reciever extends WakefulBroadcastReceiver {
+public class Alarm_Receiver extends BroadcastReceiver {
 
     MediaPlayer mymedia;
     private AudioManager myAudioManager;
