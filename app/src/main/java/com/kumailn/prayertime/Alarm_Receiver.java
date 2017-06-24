@@ -63,6 +63,8 @@ public class Alarm_Receiver extends BroadcastReceiver {
         //mymedia.setAudioStreamType(AudioManager.STREAM_ALARM);
 
 
+/*
         context.startService(service_intent);
+*/
     }
 }

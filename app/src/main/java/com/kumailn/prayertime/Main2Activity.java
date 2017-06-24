@@ -58,6 +58,7 @@ public class Main2Activity extends AppCompatActivity {
     PendingIntent isha5Pending;
     PendingIntent isha6Pending;
     PendingIntent isha7Pending;
+    PendingIntent testPendingIntent1;
 
     AlarmManager alarm_manager;
     private Switch mySwitch;
@@ -342,7 +343,11 @@ public class Main2Activity extends AppCompatActivity {
                 Toast.makeText(Main2Activity.this,a, Toast.LENGTH_LONG).show();
 
 
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() -222, pendingIntent);
+                //alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent2);
+                Intent testIntent = new Intent(Main2Activity.this, prayerReceiver.class);
+                testPendingIntent1 =  PendingIntent.getBroadcast(Main2Activity.this, 2, testIntent, 0);
+                //sendBroadcast(testIntent);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, testPendingIntent1);
                 //alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60000 , pendingIntent);
                 //alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60, pendingIntent);
 
