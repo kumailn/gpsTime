@@ -300,16 +300,16 @@ public class Main2Activity extends AppCompatActivity {
 
                 ArrayList<String> prayerNames = prayers.getTimeNames();
 
-
+                int testNum = 0;
                 Log.e("geo: " + loadLat(), loadLon());
-                Log.e(prayerTimes.get(6) + "today", Integer.toString(loadDat()) + prayerNames.get(6));
-                Log.e(prayerTimes2.get(6) + "tom", Integer.toString(loadDat()) + prayerNames.get(6));
-                Log.e(prayerTimes3.get(6) + "tom2", Integer.toString(loadDat()) + prayerNames.get(6));
-                Log.e(prayerTimes4.get(6) + "tom3", Integer.toString(loadDat()) + prayerNames.get(6));
-                Log.e(prayerTimes5.get(6) + "tom4", Integer.toString(loadDat()) + prayerNames.get(6));
-                Log.e(prayerTimes6.get(6) + "tom5", Integer.toString(loadDat()) + prayerNames.get(6));
-                Log.e(prayerTimes7.get(6) + "tom6", Integer.toString(loadDat()) + prayerNames.get(6));
-                Log.e(prayerTimes.get(6) + "tom7", Integer.toString(loadDat()) + prayerNames.get(6));
+                Log.e(prayerTimes.get(testNum) + "today ", Integer.toString(loadDat()) + prayerNames.get(testNum));
+                Log.e(prayerTimes2.get(testNum) + "tom ", Integer.toString(loadDat()) + prayerNames.get(testNum));
+                Log.e(prayerTimes3.get(testNum) + "tom2 " , Integer.toString(loadDat()) + prayerNames.get(testNum));
+                Log.e(prayerTimes4.get(testNum) + "tom3 ", Integer.toString(loadDat()) + prayerNames.get(testNum));
+                Log.e(prayerTimes5.get(testNum) + "tom4 ", Integer.toString(loadDat()) + prayerNames.get(testNum));
+                Log.e(prayerTimes6.get(testNum) + "tom5 ", Integer.toString(loadDat()) + prayerNames.get(testNum));
+                Log.e(prayerTimes7.get(testNum) + "tom6 ", Integer.toString(loadDat()) + prayerNames.get(testNum));
+                //Log.e(prayerTimes.get(testNum) + "tom7 ", Integer.toString(loadDat()) + prayerNames.get(testNum));
                 //Log.e(prayerTimes.get(5), Integer.toString(loadDat()) + prayerNames.get(5));
                 //Log.e(prayerTimes.get(4), Integer.toString(loadDat()) + prayerNames.get(4));
                 //Log.e(prayerTimes.get(3), Integer.toString(loadDat()) + prayerNames.get(3));
