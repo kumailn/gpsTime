@@ -349,7 +349,9 @@ public class Main2Activity extends AppCompatActivity {
                 Intent testIntent = new Intent(Main2Activity.this, prayerReceiver.class);
                 testPendingIntent1 =  PendingIntent.getBroadcast(Main2Activity.this, 2, testIntent, 0);
                 //sendBroadcast(testIntent);
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, testPendingIntent1);
+                if(System.currentTimeMillis() < fajrCal.getTimeInMillis()){
+                    alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal.getTimeInMillis(), testPendingIntent1);
+                }
                 //alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60000 , pendingIntent);
                 //alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60, pendingIntent);
 
