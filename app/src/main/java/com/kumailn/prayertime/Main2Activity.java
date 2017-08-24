@@ -351,7 +351,13 @@ public class Main2Activity extends AppCompatActivity {
                 //sendBroadcast(testIntent);
                 if(System.currentTimeMillis() < fajrCal.getTimeInMillis()){
                     alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal.getTimeInMillis(), testPendingIntent1);
+                    Log.e("ALARM SET",String.valueOf(fajrCal.get(Calendar.YEAR)) + " " + String.valueOf(fajrCal.get(Calendar.MONTH)) + " " +String.valueOf(fajrCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal.get(Calendar.HOUR)) + " " + String.valueOf(fajrCal.get(Calendar.MINUTE)));
                 }
+                if(System.currentTimeMillis() < maghribCal.getTimeInMillis()){
+                    alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal.getTimeInMillis(), testPendingIntent1);
+                    Log.e("ALARM SET",String.valueOf(maghribCal.get(Calendar.YEAR)) + " " + String.valueOf(maghribCal.get(Calendar.MONTH)) + " " +String.valueOf(maghribCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal.get(Calendar.HOUR)) + " " + String.valueOf(maghribCal.get(Calendar.MINUTE)));
+                }
+
                 //alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60000 , pendingIntent);
                 //alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60, pendingIntent);
 
