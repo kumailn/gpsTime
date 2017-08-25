@@ -171,7 +171,7 @@ public class Main2Activity extends AppCompatActivity {
             public void onClick(View v) {
                 saveHomeLocation(loadLat(), loadLon());
                 Toast.makeText(Main2Activity.this, "Home location successfully saved", Toast.LENGTH_LONG).show();
-                Log.i("HOME SET: ", loadHomeLocation().get(0) + " " + loadHomeLocation().get(1));
+                Log.e("HOME SET: ", loadHomeLocation().get(0) + " " + loadHomeLocation().get(1));
             }
         });
         //Alarm On onclick listner
@@ -480,7 +480,8 @@ public class Main2Activity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
         String myMethod = sharedPreferences.getString("lon", defaultMethod);
         String myMethod1 = sharedPreferences.getString("lat", defaultMethod);
-        return (myMethod + "," + myMethod1);
+        // Returns latitude, longitude
+        return (myMethod1 + "," + myMethod);
     }
 
     public void saveHomeLocation(String meth, String meth2){
@@ -489,6 +490,7 @@ public class Main2Activity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("homeLat", (meth));
         editor.putString("homeLon", (meth2));
+        Log.e("HOMELOCATION-->", meth+meth2);
         editor.commit();
     }
 

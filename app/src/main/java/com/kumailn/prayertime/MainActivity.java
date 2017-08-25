@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,10 +42,21 @@ import android.widget.Toast;
 import android.provider.Settings;
 import android.content.Intent;
 import android.app.Dialog;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.identity.intents.Address;
 import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -52,6 +65,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 import javax.net.ssl.HttpsURLConnection;
 import 	java.text.SimpleDateFormat;
@@ -72,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView sunV;
     private TextView dayV;
     private Button checkB;
+    RequestQueue requestQueue;
 
     //Location objects
     private LocationRequest locationRequest;
@@ -276,6 +292,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 Boolean myB = Boolean.valueOf(loadDaylight());
                 double timezone = offset;
+
+                Toast.makeText(MainActivity.this, getLocationJSON(latitude, longitude), Toast.LENGTH_LONG).show();
+
+
 
                 if(myB == null){
                     timezone = offset;
@@ -499,7 +519,40 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         editor.commit();
     }
 
+    public String getLocationJSON(double lat, double lon){
+        final String[] address = new String[1];
+        requestQueue = Volley.newRequestQueue(this);
+        String jsonURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=43.5183,-79.8531&key=AIzaSyDBjz8G41V2MUToug2aWJ3TLxqVUnZAog4";
+        String jsonURL2 = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + String.valueOf(lat) + "," + String.valueOf(lon) + "&key=AIzaSyDBjz8G41V2MUToug2aWJ3TLxqVUnZAog4";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, jsonURL,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            //JSONArray jsonArray = response.getJSONArray("name");
+                            address[0] = response.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+                            String aaa = response.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+                            Toast.makeText(MainActivity.this, "JSON WORKS", Toast.LENGTH_SHORT).show();
+                            Log.e("JSONVOLLEY", aaa);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("VOLLEY", "ERROR");
+                    }
+                }
+        );
+
+        requestQueue.add(jsonObjectRequest);
+        Log.e("JSON", String.valueOf(address[0]));
+        return address[0];
+
+    }
 
     public String loadAlarm(){
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
