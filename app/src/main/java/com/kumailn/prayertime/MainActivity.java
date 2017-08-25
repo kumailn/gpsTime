@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -72,6 +74,8 @@ import javax.net.ssl.HttpsURLConnection;
 import 	java.text.SimpleDateFormat;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, SwipeRefreshLayout.OnRefreshListener {
+    public static String locationReturnStatement = "a";
+
     //TextView declarations
     private TextView ttv;
     private TextView fajrV;
@@ -88,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private TextView dayV;
     private Button checkB;
     RequestQueue requestQueue;
+    private TextView addressText;
 
     //Location objects
     private LocationRequest locationRequest;
@@ -129,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //number of times button clicked counter
     private int buttonClicks = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         asrV2 = (TextView) findViewById(R.id.asrView2);
         maghribV2 = (TextView) findViewById(R.id.maghribView2);
         ishaV2 = (TextView) findViewById(R.id.ishaTime2);
-
+        addressText = (TextView)findViewById(R.id.addressTextView);
 
 
 
@@ -293,7 +299,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 Boolean myB = Boolean.valueOf(loadDaylight());
                 double timezone = offset;
 
-                Toast.makeText(MainActivity.this, getLocationJSON(latitude, longitude), Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, getLocationJSON(latitude, longitude), Toast.LENGTH_LONG).show();
+                Log.e("NETWORK", String.valueOf(checkInternetAccess()));
 
 
 
@@ -340,6 +347,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 maghribV2.setText(prayerTimes.get(5));
                 ishaV2.setText(prayerTimes.get(6));
 
+                addressText.setText(getLocationJSON(latitude, longitude));
+
                 if(buttonClicks <= 1){
                     AlphaAnimation fadeIn = new AlphaAnimation(0.0f , 1.0f ) ;
                     fadeIn.setInterpolator(new AccelerateInterpolator()); //and this
@@ -385,6 +394,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     animation5.addAnimation(fadeIn5);
                     ishaV.setAnimation(animation5);
                     ishaV2.setAnimation(animation5);
+
+                    AlphaAnimation fadeIn6 = new AlphaAnimation(0.0f , 1.0f ) ;
+                    fadeIn6.setInterpolator(new AccelerateInterpolator()); //and this
+                    fadeIn6.setStartOffset(1400);
+                    fadeIn6.setDuration(500);
+                    AnimationSet animation6 = new AnimationSet(false); //change to false
+                    animation6.addAnimation(fadeIn6);
+                    addressText.setAnimation(animation6);
                 }
 
 
@@ -520,19 +537,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     public String getLocationJSON(double lat, double lon){
-        final String[] address = new String[1];
+        final String[] myStringOne = new String[1];
+        final String[] address = new String[2];
+        final List<String> strs = new ArrayList<>();
         requestQueue = Volley.newRequestQueue(this);
-        String jsonURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=43.5183,-79.8531&key=AIzaSyDBjz8G41V2MUToug2aWJ3TLxqVUnZAog4";
-        String jsonURL2 = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + String.valueOf(lat) + "," + String.valueOf(lon) + "&key=AIzaSyDBjz8G41V2MUToug2aWJ3TLxqVUnZAog4";
+        String jsonURL2 = "https://maps.googleapis.com/maps/api/geocode/json?latlng=43.5183,-79.8531&key=AIzaSyDBjz8G41V2MUToug2aWJ3TLxqVUnZAog4";
+        String jsonURL3 = "https://maps.googleapis.com/maps/api/geocode/json?latlng=42.2199983,-108.4569983&key=AIzaSyDBjz8G41V2MUToug2aWJ3TLxqVUnZAog4";
+        String jsonURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + String.valueOf(lat) + "," + String.valueOf(lon) + "&key=AIzaSyDBjz8G41V2MUToug2aWJ3TLxqVUnZAog4";
+        Log.e(String.valueOf(lat),String.valueOf(lon));
+        Log.e(jsonURL, "");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, jsonURL,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             //JSONArray jsonArray = response.getJSONArray("name");
-                            address[0] = response.getJSONArray("results").getJSONObject(0).getString("formatted_address");
                             String aaa = response.getJSONArray("results").getJSONObject(0).getString("formatted_address");
-                            Toast.makeText(MainActivity.this, "JSON WORKS", Toast.LENGTH_SHORT).show();
+                            address[0] = aaa;
+                            myStringOne[0] = aaa;
+                            strs.add("ABCD");
+                            MainActivity.locationReturnStatement = aaa;
+                            //Toast.makeText(MainActivity.this, "JSON WORKS", Toast.LENGTH_SHORT).show();
                             Log.e("JSONVOLLEY", aaa);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -547,10 +572,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     }
                 }
         );
-
+        strs.add("f");
         requestQueue.add(jsonObjectRequest);
-        Log.e("JSON", String.valueOf(address[0]));
-        return address[0];
+        Log.e("JSON", String.valueOf(strs.get(0)));
+        if (!MainActivity.locationReturnStatement.equals("a")){
+            return MainActivity.locationReturnStatement;
+        }
+        return "";
+
 
     }
 
@@ -830,6 +859,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         }
     }
+
+    private boolean checkInternetAccess() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
