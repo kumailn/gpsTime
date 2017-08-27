@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     //number of times button clicked counter
     private int buttonClicks = 0;
+    public static int locationViewerInt = 0;
 
 
     @Override
@@ -404,6 +405,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     addressText.setAnimation(animation6);
                 }
 
+                if (!(mn1 == 0.0 && mn2 == 0.0) && locationViewerInt == 1) {
+                    AlphaAnimation fadeIn6 = new AlphaAnimation(0.0f , 1.0f ) ;
+                    fadeIn6.setInterpolator(new AccelerateInterpolator()); //and this
+                    fadeIn6.setStartOffset(1400);
+                    fadeIn6.setDuration(500);
+                    AnimationSet animation6 = new AnimationSet(false); //change to false
+                    animation6.addAnimation(fadeIn6);
+                    addressText.setAnimation(animation6);
+                }
+
+
 
 
 
@@ -551,6 +563,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            MainActivity.locationViewerInt += 1;
                             //JSONArray jsonArray = response.getJSONArray("name");
                             String aaa = response.getJSONArray("results").getJSONObject(0).getString("formatted_address");
                             address[0] = aaa;
