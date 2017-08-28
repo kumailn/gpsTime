@@ -94,6 +94,7 @@ public class Main2Activity extends AppCompatActivity {
                     //Toast.makeText(Main2Activity.this, "works", Toast.LENGTH_SHORT).show();
                     saveDaylight(true);
                     Log.e(TAG, "Switch saved as on");
+                    Log.wtf("Testing", "123");
                 }
                 else {
                     saveDaylight(false);
@@ -225,6 +226,8 @@ public class Main2Activity extends AppCompatActivity {
                 int currentHour = Integer.parseInt(myday.split("/")[3]);
                 int currentMin = Integer.parseInt(myday.split("/")[4]);
 
+                Log.e("CURRENTTIME::", String.valueOf(currentDay) + " " + String.valueOf(currentMonth) + " " + String.valueOf(currentYear) + ":" + String.valueOf(currentHour) + " " + String.valueOf(currentMin));
+
                 TimeZone tz1 = TimeZone.getDefault();
                 int offset = tz1.getRawOffset()/1000/60/60;
 
@@ -322,9 +325,9 @@ public class Main2Activity extends AppCompatActivity {
                 GregorianCalendar fajrCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(0).split(":")[0]), Integer.parseInt(prayerTimes.get(0).split(":")[1]));
                 GregorianCalendar dhurCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(2).split(":")[0]), Integer.parseInt(prayerTimes.get(2).split(":")[1]));
                 GregorianCalendar maghribCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(5).split(":")[0]), Integer.parseInt(prayerTimes.get(5).split(":")[1]));
-                Log.e("Alarm is SET", prayerTimes.get(5).split(":")[0] + ":" + prayerTimes.get(5).split(":")[1]);
-                Log.e("Fajr is SET", prayerTimes.get(0).split(":")[0] + ":" + prayerTimes.get(0).split(":")[1]);
-                Log.e("dhur is SET", prayerTimes.get(2).split(":")[0] + ":" + prayerTimes.get(2).split(":")[1]);
+                //Log.e("Alarm is SET", prayerTimes.get(5).split(":")[0] + ":" + prayerTimes.get(5).split(":")[1]);
+                //Log.e("Fajr is SET", prayerTimes.get(0).split(":")[0] + ":" + prayerTimes.get(0).split(":")[1]);
+                //Log.e("dhur is SET", prayerTimes.get(2).split(":")[0] + ":" + prayerTimes.get(2).split(":")[1]);
                 long millis = myCal.getTimeInMillis();
 
 
@@ -342,7 +345,7 @@ public class Main2Activity extends AppCompatActivity {
                 //alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() - 5000, pendingIntent);
                 //alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent3);
 
-                Toast.makeText(Main2Activity.this,a, Toast.LENGTH_LONG).show();
+                Toast.makeText(Main2Activity.this, String.valueOf(latitude) + " " + String.valueOf(longitude), Toast.LENGTH_LONG).show();
 
 
                 //alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent2);
@@ -351,11 +354,15 @@ public class Main2Activity extends AppCompatActivity {
                 //sendBroadcast(testIntent);
                 if(System.currentTimeMillis() < fajrCal.getTimeInMillis()){
                     alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal.getTimeInMillis(), testPendingIntent1);
-                    Log.e("ALARM SET",String.valueOf(fajrCal.get(Calendar.YEAR)) + " " + String.valueOf(fajrCal.get(Calendar.MONTH)) + " " +String.valueOf(fajrCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal.get(Calendar.HOUR)) + " " + String.valueOf(fajrCal.get(Calendar.MINUTE)));
+                    Log.e("FajrTodaySet:",String.valueOf(fajrCal.get(Calendar.YEAR)) + " " + String.valueOf(fajrCal.get(Calendar.MONTH)) + " " +String.valueOf(fajrCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal.get(Calendar.HOUR)) + " " + String.valueOf(fajrCal.get(Calendar.MINUTE)));
+                }
+                if(System.currentTimeMillis() < dhurCal.getTimeInMillis()){
+                    alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal.getTimeInMillis(), testPendingIntent1);
+                    Log.e("DhurTodaySet:",String.valueOf(dhurCal.get(Calendar.YEAR)) + " " + String.valueOf(dhurCal.get(Calendar.MONTH)) + " " +String.valueOf(dhurCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal.get(Calendar.HOUR)) + " " + String.valueOf(dhurCal.get(Calendar.MINUTE)));
                 }
                 if(System.currentTimeMillis() < maghribCal.getTimeInMillis()){
                     alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal.getTimeInMillis(), testPendingIntent1);
-                    Log.e("ALARM SET",String.valueOf(maghribCal.get(Calendar.YEAR)) + " " + String.valueOf(maghribCal.get(Calendar.MONTH)) + " " +String.valueOf(maghribCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal.get(Calendar.HOUR)) + " " + String.valueOf(maghribCal.get(Calendar.MINUTE)));
+                    Log.e("MaghribTodaySet:",String.valueOf(maghribCal.get(Calendar.YEAR)) + " " + String.valueOf(maghribCal.get(Calendar.MONTH)) + " " +String.valueOf(maghribCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal.get(Calendar.HOUR)) + " " + String.valueOf(maghribCal.get(Calendar.MINUTE)));
                 }
 
                 //alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60000 , pendingIntent);
@@ -374,9 +381,6 @@ public class Main2Activity extends AppCompatActivity {
         offButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (pendingIntent == null){
-                    return;
-                }
                 alarm_manager.cancel(pendingIntent);
                 alarm_manager.cancel(pendingIntent2);
                 alarm_manager.cancel(pendingIntent3);
@@ -387,7 +391,7 @@ public class Main2Activity extends AppCompatActivity {
                 startService(abdc1);
 
 
-
+                Log.wtf("Testing", "123");
 
                 Toast.makeText(Main2Activity.this, "Adhans Off", Toast.LENGTH_SHORT).show();
 

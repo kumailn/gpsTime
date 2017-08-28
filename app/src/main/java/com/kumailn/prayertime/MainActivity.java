@@ -411,11 +411,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
 
-
+                // Calendar with today's date
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 Calendar cal2 = Calendar.getInstance();
 
+                // https://stackoverflow.com/questions/9001231/how-to-detect-day-light-saving-in-java
+                // 0 = False, Else = True
+                int daylightSavingCheck = cal2.get(Calendar.DST_OFFSET);
+
+                Log.e("DAYLIGHT:", String.valueOf(daylightSavingCheck));
+
                 dayV.setText(dateFormat.format(cal2.getTime()));
+
 
 
                 /*

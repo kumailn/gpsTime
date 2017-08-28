@@ -46,13 +46,14 @@ public class Alarm_Receiver extends BroadcastReceiver {
         Toast.makeText(context, "Alarm! Wake up! Wake up!", Toast.LENGTH_LONG).show();
         //Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Uri alarmUri = Uri.parse("android.resource://" + "com.example.ali.gpstime/" + "raw/adhan");
+        //Uri alarmUri = Uri.parse("android.resource://" + "com.example.ali.gpstime/" + "raw/sms");
         if (alarmUri == null)
         {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         }
         //Ringtone ringtone = RingtoneManager.getRingtone(context, alarmUri);
         Ringtone ringtone = RingtoneManager.getRingtone(context, alarmUri);
-
+        //TODO: Fix API compatibility issues
         ringtone.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
 
         ringtone.play();

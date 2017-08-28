@@ -39,7 +39,7 @@
 
     <Spinner
         android:id="@+id/myspin1"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
@@ -47,6 +47,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="132dp"
         android:dropDownWidth="match_parent"
+        android:paddingLeft="26dp"
         android:spinnerMode="dialog"
         android:textSize="33sp"
         app:layout_constraintHorizontal_bias="0.0"
@@ -56,13 +57,14 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="220dp"
+        android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="97dp"
+        android:paddingLeft="16dp"
         android:text="Calculation Method:"
         android:textColor="@android:color/white"
         android:textSize="24sp"
@@ -119,14 +121,17 @@
 
     <Switch
         android:id="@+id/switch1"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="168dp"
-        android:text="Daylight Savings"
+        android:paddingLeft="16dp"
+        android:text="Daylight Savings:"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:theme="@style/SwitchTheme"
         app:layout_constraintHorizontal_bias="0.0"
