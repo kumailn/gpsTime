@@ -338,18 +338,23 @@ public class Main2Activity extends AppCompatActivity {
                 GregorianCalendar maghribCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(5).split(":")[0]), Integer.parseInt(prayerTimes.get(5).split(":")[1]));
 
                 //Tomorrow
-                GregorianCalendar fajrCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes2.get(0).split(":")[0]), Integer.parseInt(prayerTimes2.get(0).split(":")[1]));
-                GregorianCalendar dhurCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes2.get(2).split(":")[0]), Integer.parseInt(prayerTimes2.get(2).split(":")[1]));
-                GregorianCalendar maghribCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes2.get(5).split(":")[0]), Integer.parseInt(prayerTimes2.get(5).split(":")[1]));
+                GregorianCalendar fajrCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(0).split(":")[0]), Integer.parseInt(prayerTimes2.get(0).split(":")[1]));
+                GregorianCalendar dhurCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(2).split(":")[0]), Integer.parseInt(prayerTimes2.get(2).split(":")[1]));
+                GregorianCalendar maghribCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(5).split(":")[0]), Integer.parseInt(prayerTimes2.get(5).split(":")[1]));
 
                 //Day after
-                GregorianCalendar fajrCal3 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes3.get(0).split(":")[0]), Integer.parseInt(prayerTimes3.get(0).split(":")[1]));
-                GregorianCalendar dhurCal3 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes3.get(2).split(":")[0]), Integer.parseInt(prayerTimes3.get(2).split(":")[1]));
-                GregorianCalendar maghribCal3 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes3.get(5).split(":")[0]), Integer.parseInt(prayerTimes3.get(5).split(":")[1]));
+                GregorianCalendar fajrCal3 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 2, Integer.parseInt(prayerTimes3.get(0).split(":")[0]), Integer.parseInt(prayerTimes3.get(0).split(":")[1]));
+                GregorianCalendar dhurCal3 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 2, Integer.parseInt(prayerTimes3.get(2).split(":")[0]), Integer.parseInt(prayerTimes3.get(2).split(":")[1]));
+                GregorianCalendar maghribCal3 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 2, Integer.parseInt(prayerTimes3.get(5).split(":")[0]), Integer.parseInt(prayerTimes3.get(5).split(":")[1]));
+
+                //After that...
+                GregorianCalendar fajrCal4 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 3, Integer.parseInt(prayerTimes4.get(0).split(":")[0]), Integer.parseInt(prayerTimes4.get(0).split(":")[1]));
+                GregorianCalendar dhurCal4 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 3, Integer.parseInt(prayerTimes4.get(2).split(":")[0]), Integer.parseInt(prayerTimes4.get(2).split(":")[1]));
+                GregorianCalendar maghribCal4 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 3, Integer.parseInt(prayerTimes4.get(5).split(":")[0]), Integer.parseInt(prayerTimes4.get(5).split(":")[1]));
 
 
-                Log.e("TEST1", String.valueOf(Integer.parseInt(prayerTimes.get(0).split(":")[0])));
-                Log.e("TEST2", String.valueOf(Integer.parseInt(prayerTimes.get(0).split(":")[1])));
+                //Log.e("TEST1", String.valueOf(Integer.parseInt(prayerTimes.get(0).split(":")[0])));
+                //Log.e("TEST2", String.valueOf(Integer.parseInt(prayerTimes.get(0).split(":")[1])));
                 //Log.e("Alarm is SET", prayerTimes.get(5).split(":")[0] + ":" + prayerTimes.get(5).split(":")[1]);
                 //Log.e("Fajr is SET", prayerTimes.get(0).split(":")[0] + ":" + prayerTimes.get(0).split(":")[1]);
                 //Log.e("dhur is SET", prayerTimes.get(2).split(":")[0] + ":" + prayerTimes.get(2).split(":")[1]);
@@ -379,31 +384,38 @@ public class Main2Activity extends AppCompatActivity {
                 //sendBroadcast(testIntent);
                 if(System.currentTimeMillis() < fajrCal.getTimeInMillis()){
                     alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal.getTimeInMillis(), testPendingIntent1);
-                    Log.e("FajrTodaySet:",String.valueOf(fajrCal.get(Calendar.YEAR)) + " " + String.valueOf(fajrCal.get(Calendar.MONTH)+1)  + " " +String.valueOf(fajrCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal.get(Calendar.HOUR)) + " " + String.valueOf(fajrCal.get(Calendar.MINUTE)));
+                    Log.e("FajrTodaySet:",String.valueOf(fajrCal.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal.get(Calendar.MONTH)+1)  + "/" +String.valueOf(fajrCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal.get(Calendar.MINUTE)));
                 }
                 if(System.currentTimeMillis() < dhurCal.getTimeInMillis()){
                     alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal.getTimeInMillis(), testPendingIntent1);
-                    Log.e("DhurTodaySet:",String.valueOf(dhurCal.get(Calendar.YEAR)) + " " + String.valueOf(dhurCal.get(Calendar.MONTH)+1) + " " +String.valueOf(dhurCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal.get(Calendar.HOUR)) + " " + String.valueOf(dhurCal.get(Calendar.MINUTE)));
+                    Log.e("DhurTodaySet:",String.valueOf(dhurCal.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal.get(Calendar.MINUTE)));
                 }
                 if(System.currentTimeMillis() < maghribCal.getTimeInMillis()){
                     alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal.getTimeInMillis(), testPendingIntent1);
-                    Log.e("MaghribTodaySet:",String.valueOf(maghribCal.get(Calendar.YEAR)) + " " + String.valueOf(maghribCal.get(Calendar.MONTH)+1) + " " +String.valueOf(maghribCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal.get(Calendar.HOUR)) + " " + String.valueOf(maghribCal.get(Calendar.MINUTE)));
+                    Log.e("MaghribTodaySet:",String.valueOf(maghribCal.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal.get(Calendar.MINUTE)));
                 }
 
                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(), testPendingIntent1);
-                Log.e("FajrTomSet:",String.valueOf(fajrCal2.get(Calendar.YEAR)) + " " + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + " " +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR)) + " " + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
+                Log.e("FajrTomSet:",String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(), testPendingIntent1);
-                Log.e("DhurTomSet:",String.valueOf(dhurCal2.get(Calendar.YEAR)) + " " + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + " " +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + " " + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
+                Log.e("DhurTomSet:",String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(), testPendingIntent1);
-                Log.e("MaghribTomSet:",String.valueOf(maghribCal2.get(Calendar.YEAR)) + " " + String.valueOf(maghribCal2.get(Calendar.MONTH)+1) + " " +String.valueOf(maghribCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal2.get(Calendar.HOUR)) + " " + String.valueOf(maghribCal2.get(Calendar.MINUTE)));
+                Log.e("MaghribTomSet:",String.valueOf(maghribCal2.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal2.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal2.get(Calendar.MINUTE)));
 
 
                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal3.getTimeInMillis(), testPendingIntent1);
-                Log.e("Fajr3Set:",String.valueOf(fajrCal3.get(Calendar.YEAR)) + " " + String.valueOf(fajrCal3.get(Calendar.MONTH)+1) + " " +String.valueOf(fajrCal3.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal3.get(Calendar.HOUR)) + " " + String.valueOf(fajrCal3.get(Calendar.MINUTE)));
+                Log.e("Fajr3Set:",String.valueOf(fajrCal3.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal3.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal3.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal3.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal3.get(Calendar.MINUTE)));
                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal3.getTimeInMillis(), testPendingIntent1);
-                Log.e("Dhur3Set:",String.valueOf(dhurCal3.get(Calendar.YEAR)) + " " + String.valueOf(dhurCal3.get(Calendar.MONTH)+1) + " " +String.valueOf(dhurCal3.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal3.get(Calendar.HOUR)) + " " + String.valueOf(dhurCal3.get(Calendar.MINUTE)));
+                Log.e("Dhur3Set:",String.valueOf(dhurCal3.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal3.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal3.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal3.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal3.get(Calendar.MINUTE)));
                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal3.getTimeInMillis(), testPendingIntent1);
-                Log.e("Maghrib3Set:",String.valueOf(maghribCal3.get(Calendar.YEAR)) + " " + String.valueOf(maghribCal3.get(Calendar.MONTH)+1) + " " +String.valueOf(maghribCal3.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal3.get(Calendar.HOUR)) + " " + String.valueOf(maghribCal3.get(Calendar.MINUTE)));
+                Log.e("Maghrib3Set:",String.valueOf(maghribCal3.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal3.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal3.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal3.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal3.get(Calendar.MINUTE)));
+
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal4.getTimeInMillis(), testPendingIntent1);
+                Log.e("Fajr4Set:",String.valueOf(fajrCal4.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal4.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal4.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal4.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal4.get(Calendar.MINUTE)));
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal4.getTimeInMillis(), testPendingIntent1);
+                Log.e("Dhur4Set:",String.valueOf(dhurCal4.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal4.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal4.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal4.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal4.get(Calendar.MINUTE)));
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal4.getTimeInMillis(), testPendingIntent1);
+                Log.e("Maghrib4Set:",String.valueOf(maghribCal4.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal4.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal4.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal4.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal4.get(Calendar.MINUTE)));
 
                 //alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60000 , pendingIntent);
                 //alarm_manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60, pendingIntent);
