@@ -373,7 +373,6 @@ public class Main2Activity extends AppCompatActivity {
                 //alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
                 //alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
                 //alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() - 5000, pendingIntent);
-                //alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent3);
 
                 Toast.makeText(Main2Activity.this, String.valueOf(latitude) + " " + String.valueOf(longitude), Toast.LENGTH_LONG).show();
 
