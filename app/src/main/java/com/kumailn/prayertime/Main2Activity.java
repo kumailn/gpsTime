@@ -394,16 +394,16 @@ public class Main2Activity extends AppCompatActivity {
                     Log.e("MaghribTodaySet:",String.valueOf(maghribCal.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal.get(Calendar.MINUTE)));
                 }
 
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(), testPendingIntent1);
-                Log.e("FajrTomSet:",String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(), testPendingIntent1);
-                Log.e("DhurTomSet:",String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(), testPendingIntent1);
-                Log.e("MaghribTomSet:",String.valueOf(maghribCal2.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal2.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal2.get(Calendar.MINUTE)));
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(), testPendingIntent1);
+                Log.e("FajrTomSet:",String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(), testPendingIntent1);
+                Log.e("DhurTomSet:",String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(), testPendingIntent1);
+                Log.e("MaghribTomSet:",String.valueOf(maghribCal2.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal2.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(maghribCal2.get(Calendar.MINUTE)));
 
 
                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal3.getTimeInMillis(), testPendingIntent1);
-                Log.e("Fajr3Set:",String.valueOf(fajrCal3.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal3.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal3.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal3.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal3.get(Calendar.MINUTE)));
+                Log.e("Fajr3Set:",String.valueOf(fajrCal3.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal3.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal3.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal3.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(fajrCal3.get(Calendar.MINUTE)));
                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal3.getTimeInMillis(), testPendingIntent1);
                 Log.e("Dhur3Set:",String.valueOf(dhurCal3.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal3.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal3.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal3.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal3.get(Calendar.MINUTE)));
                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal3.getTimeInMillis(), testPendingIntent1);

@@ -84,7 +84,7 @@ public class RingtonePlayingService extends Service  {
     public int onStartCommand(Intent intent, int flags, int startId){
 
 
-        Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/adhan");
+        Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/adhan2");
         Log.e("IN", "BROADCASTRECIEVER");
         if (alarmUri == null)
         {
