@@ -423,16 +423,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 dayV.setText(dateFormat.format(cal2.getTime()));
 
-
-
-                /*
-                Log.e(prayerNames.get(0) + " - " + prayerTimes.get(0), "1");
-                Log.e(prayerNames.get(1) + " - " + prayerTimes.get(1), "2");
-                Log.e(prayerNames.get(2) + " - " + prayerTimes.get(2), "3");
-                Log.e(prayerNames.get(5) + " - " + prayerTimes.get(5), "4");
-                Log.e(prayerNames.get(6) + " - " + prayerTimes.get(6), "5");
-                */
-
                 //Toast.makeText(Main2Activity.this, (prayerNames.get(0) + " - " + prayerTimes.get(0)), Toast.LENGTH_LONG).show();
 
                 //new jsonTask2().execute("https://maps.googleapis.com/maps/api/timezone/json?location=" + Double.toString(12.6392316)+","+ Double.toString(-8.002889200000027) +"&timestamp=" + Long.toString(System.currentTimeMillis()/1000) + "&key=AIzaSyCWGwEXTr-WnOW5YANriYkII-MohBedO9I");
