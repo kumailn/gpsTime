@@ -37,6 +37,13 @@ import java.util.TimeZone;
 public class Main2Activity extends AppCompatActivity {
     public static final String TAG = "com.kumailn.prayertime";
     public static final String defaultMethod = "0";
+    PendingIntent dynamicFajrPendingIntent;
+    PendingIntent dynamicAsrPendingIntent;
+    PendingIntent dynamicDhurPendingIntent;
+    PendingIntent dynamicMaghribPendingIntent;
+    PendingIntent dynamicIshaPendingIntent;
+
+
     PendingIntent pendingIntent;
     PendingIntent pendingIntent2;
     PendingIntent pendingIntent3;
@@ -186,6 +193,63 @@ public class Main2Activity extends AppCompatActivity {
                 else if(alarmState == null){
                     return;
                 }
+
+                //Initialize dynamic alarm intents
+                Intent dynamicFajrIntent = new Intent(getApplicationContext(), Alarm_Receiver.class);
+                dynamicFajrIntent.putExtra("Prayer", "Fajr").putExtra("Type", "Dynamic");
+                Intent dynamicDhurIntent = new Intent(getApplicationContext(), Alarm_Receiver.class);
+                dynamicDhurIntent.putExtra("Prayer", "Dhur").putExtra("Type", "Dynamic");
+                Intent dynamicAsrIntent = new Intent(getApplicationContext(), Alarm_Receiver.class);
+                dynamicAsrIntent.putExtra("Prayer", "Asr").putExtra("Type", "Dynamic");
+                Intent dynamicMaghribIntent = new Intent(getApplicationContext(), Alarm_Receiver.class);
+                dynamicMaghribIntent.putExtra("Prayer", "Maghrib").putExtra("Type", "Dynamic");
+                Intent dynamicIshaIntent = new Intent(getApplicationContext(), Alarm_Receiver.class);
+                dynamicIshaIntent.putExtra("Prayer", "Isha").putExtra("Type", "Dynamic");
+
+                //Initialize pending intents
+                dynamicFajrPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 101, dynamicFajrIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                dynamicDhurPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 102, dynamicDhurIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                dynamicAsrPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 103, dynamicAsrIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                dynamicMaghribPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 104, dynamicMaghribIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                dynamicIshaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 105, dynamicIshaIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy/HH/mm");
+                Calendar cal2 = Calendar.getInstance();
+                String myday = (dateFormat.format(cal2.getTime()));
+
+                //Current Time variables
+                int currentDay = Integer.parseInt(myday.split("/")[0]);
+                int currentMonth = Integer.parseInt(myday.split("/")[1]);
+                int currentYear = Integer.parseInt(myday.split("/")[2]);
+                int currentHour = Integer.parseInt(myday.split("/")[3]);
+                int currentMin = Integer.parseInt(myday.split("/")[4]);
+
+                TimeZone tz1 = TimeZone.getDefault();
+                int offset = tz1.getRawOffset()/1000/60/60;
+
+                //Load longitute and latitute from saved data
+                double latitude = Double.parseDouble(loadLat());
+                double longitude = Double.parseDouble(loadLon());
+
+                //Load daylight-savings
+                Boolean myB = Boolean.valueOf(loadDaylight());
+                double timezone = offset;
+
+                //Adjust timezone based on daylight savings
+                if(myB == null){
+                    timezone = offset;
+                }
+                else if(myB == false){
+                    timezone = offset;
+                }
+                else{
+                    timezone = timezone + 1;
+                }
+
+                //Initialize praytime object
+                PrayTime prayers = new PrayTime();
+
+
                 Intent i2 = new Intent(Main2Activity.this, Alarm_Receiver.class);
                 i2.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
                 i2.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
@@ -215,39 +279,17 @@ public class Main2Activity extends AppCompatActivity {
                 isha6Pending = PendingIntent.getBroadcast(Main2Activity.this, 21, i2, 0);
                 isha7Pending = PendingIntent.getBroadcast(Main2Activity.this, 22, i2, 0);
 
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy/HH/mm");
-                Calendar cal2 = Calendar.getInstance();
-                String myday = (dateFormat.format(cal2.getTime()));
 
-                //Current Time variables
-                int currentDay = Integer.parseInt(myday.split("/")[0]);
-                int currentMonth = Integer.parseInt(myday.split("/")[1]);
-                int currentYear = Integer.parseInt(myday.split("/")[2]);
-                int currentHour = Integer.parseInt(myday.split("/")[3]);
-                int currentMin = Integer.parseInt(myday.split("/")[4]);
 
                 Log.e("CURRENTTIME::", String.valueOf(currentDay) + " " + String.valueOf(currentMonth) + " " + String.valueOf(currentYear) + ":" + String.valueOf(currentHour) + " " + String.valueOf(currentMin));
 
-                TimeZone tz1 = TimeZone.getDefault();
-                int offset = tz1.getRawOffset()/1000/60/60;
 
-                double latitude = Double.parseDouble(loadLat());
-                double longitude = Double.parseDouble(loadLon());
 
-                Boolean myB = Boolean.valueOf(loadDaylight());
-                double timezone = offset;
 
-                if(myB == null){
-                    timezone = offset;
-                }
-                else if(myB == false){
-                    timezone = offset;
-                }
-                else{
-                    timezone = timezone + 1;
-                }
 
-                PrayTime prayers = new PrayTime();
+
+
+
 
                 prayers.setTimeFormat(prayers.Time24);
                 prayers.setCalcMethod(loadDat());
@@ -557,40 +599,3 @@ public class Main2Activity extends AppCompatActivity {
         //Configures menu (toolbar) button options
         if(item.getItemId() == R.id.action_settings){
             Toast.makeText(Main2Activity.this, "Already on settings", Toast.LENGTH_SHORT).show();
-        }
-        if(item.getItemId() == R.id.action_about){
-            AlertDialog.Builder builder;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder = new AlertDialog.Builder(Main2Activity.this, android.R.style.Theme_Material_Dialog_Alert);
-            } else {
-                builder = new AlertDialog.Builder(Main2Activity.this);
-            }
-            builder.setTitle("About the app")
-                    .setMessage("Made by Kumail Naqvi, 2017, Version 1.3, Contact me at kumailmn@gmail.com")
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // continue with delete
-                        }
-
-                    })
-                    //.setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        }
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // this takes the user 'back', as if they pressed the left-facing triangle icon on the main android toolbar.
-                // if this doesn't work as desired, another possibility is to call `finish()` here.
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        //return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-}
