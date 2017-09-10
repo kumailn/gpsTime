@@ -13,24 +13,14 @@ public class prayerReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO: This method is called when the BroadcastReceiver is receiving
-        // an Intent broadcast.
-
         String prayerName = intent.getStringExtra("Prayer");
         Log.e("PrayerReciever: ", prayerName);
 
+        //Intent to start service
         Intent service_intent = new Intent(context, RingtonePlayingService.class);
+        service_intent.putExtra("Prayer", prayerName);
 
-        /*Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/adhan");
-        Log.e("IN", "BROADCASTRECIEVER");
-        if (alarmUri == null)
-        {
-            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        }
-        Ringtone ringtone = RingtoneManager.getRingtone(context, alarmUri);
-        ringtone.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
-        ringtone.play();*/
-        Log.e("alarmapp", "Ringone now playing");
+        Log.e("PrayerReciever: ", "now launching service");
         //context.startService(service_intent);
 
     }

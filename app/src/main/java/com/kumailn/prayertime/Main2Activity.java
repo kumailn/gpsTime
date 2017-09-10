@@ -213,6 +213,7 @@ public class Main2Activity extends AppCompatActivity {
                 dynamicMaghribPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 104, dynamicMaghribIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 dynamicIshaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 105, dynamicIshaIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+                //Initalize date format
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy/HH/mm");
                 Calendar cal2 = Calendar.getInstance();
                 String myday = (dateFormat.format(cal2.getTime()));
@@ -284,7 +285,7 @@ public class Main2Activity extends AppCompatActivity {
                 //sendBroadcast(testIntent);
 
                 //test
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, dynamicDhurPendingIntent);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, dynamicMaghribPendingIntent);
 
 
                 /*if(System.currentTimeMillis() < fajrCal.getTimeInMillis()){
