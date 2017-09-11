@@ -305,7 +305,7 @@ public class Main2Activity extends AppCompatActivity {
                 //sendBroadcast(testIntent);
 
                 //test
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, dynamicMaghribPendingIntent);
+                //alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, dynamicMaghribPendingIntent);
 
                 if(System.currentTimeMillis() < fajrCal.getTimeInMillis()){
                     alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal.getTimeInMillis(), dynamicFajrPendingIntent);
@@ -339,7 +339,7 @@ public class Main2Activity extends AppCompatActivity {
                 i2.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
                 i2.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
                 Intent i3 = new Intent(Main2Activity.this, Alarm_Receiver.class);
-                //Pending intent for each prayer notification because the time changes everyday - need a better solution.
+           /*     //Pending intent for each prayer notification because the time changes everyday - need a better solution.
                 pendingIntent = PendingIntent.getBroadcast(Main2Activity.this, 0, i2, PendingIntent.FLAG_UPDATE_CURRENT);
                 pendingIntent2 = PendingIntent.getBroadcast(Main2Activity.this, 1, i3, PendingIntent.FLAG_UPDATE_CURRENT);
                 pendingIntent3 = PendingIntent.getBroadcast(Main2Activity.this, 2, i2, 0);
@@ -362,9 +362,11 @@ public class Main2Activity extends AppCompatActivity {
                 isha4Pending = PendingIntent.getBroadcast(Main2Activity.this, 19, i2, 0);
                 isha5Pending = PendingIntent.getBroadcast(Main2Activity.this, 20, i2, 0);
                 isha6Pending = PendingIntent.getBroadcast(Main2Activity.this, 21, i2, 0);
-                isha7Pending = PendingIntent.getBroadcast(Main2Activity.this, 22, i2, 0);
+                isha7Pending = PendingIntent.getBroadcast(Main2Activity.this, 22, i2, 0);*/
 
+/*
                 Log.e("CURRENTTIME::", String.valueOf(currentDay) + " " + String.valueOf(currentMonth) + " " + String.valueOf(currentYear) + ":" + String.valueOf(currentHour) + " " + String.valueOf(currentMin));
+*/
 
                 Calendar cal3 = Calendar.getInstance();
                 cal3.set(currentYear, currentMonth - 1, currentDay + 2);
@@ -512,6 +514,12 @@ public class Main2Activity extends AppCompatActivity {
                 alarm_manager.cancel(pendingIntent2);
                 alarm_manager.cancel(pendingIntent3);
                 alarm_manager.cancel(testPendingIntent1);
+                alarm_manager.cancel(dynamicDhurPendingIntent);
+                alarm_manager.cancel(dynamicFajrPendingIntent);
+                alarm_manager.cancel(dynamicIshaPendingIntent);
+                alarm_manager.cancel(dynamicAsrPendingIntent);
+                alarm_manager.cancel(dynamicMaghribPendingIntent);
+
                 saveAlarm("off");
 
                 Toast.makeText(Main2Activity.this, "Adhans Off", Toast.LENGTH_SHORT).show();
