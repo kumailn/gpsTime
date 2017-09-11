@@ -81,6 +81,7 @@ public class Main2Activity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Settings");
 
         mySwitch = (Switch)findViewById(R.id.switch1);
@@ -306,7 +307,7 @@ public class Main2Activity extends AppCompatActivity {
 
                 //test
                 //alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, dynamicMaghribPendingIntent);
-
+                //TODO: Fix API compatibility
                 if(System.currentTimeMillis() < fajrCal.getTimeInMillis()){
                     alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal.getTimeInMillis(), dynamicFajrPendingIntent);
                     Log.e("FajrTodaySet:",String.valueOf(fajrCal.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal.get(Calendar.MONTH)+1)  + "/" +String.valueOf(fajrCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal.get(Calendar.MINUTE)));
@@ -383,10 +384,6 @@ public class Main2Activity extends AppCompatActivity {
                 Calendar cal7 = Calendar.getInstance();
                 cal7.set(currentYear, currentMonth - 1, currentDay + 6);
 
-                Log.e("LATLON!: ", String.valueOf(latitude) + " " + String.valueOf(longitude));
-
-
-
                 //Prayer times for 2 days from now
                 ArrayList<String> prayerTimes3 = prayers.getPrayerTimes(cal3,
                         latitude, longitude, timezone);
@@ -405,6 +402,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
+/*
 
                 StringBuilder sb = new StringBuilder();
                 for(String str : prayerTimes){
@@ -414,6 +412,7 @@ public class Main2Activity extends AppCompatActivity {
                 String strfromArrayList = sb.toString();
 
                 Log.e("ARRAYLIST: ", strfromArrayList);
+*/
 
                 int testNum = 0;
 
@@ -447,8 +446,6 @@ public class Main2Activity extends AppCompatActivity {
                 //Log.e("Alarm is SET", prayerTimes.get(5).split(":")[0] + ":" + prayerTimes.get(5).split(":")[1]);
                 //Log.e("Fajr is SET", prayerTimes.get(0).split(":")[0] + ":" + prayerTimes.get(0).split(":")[1]);
                 //Log.e("dhur is SET", prayerTimes.get(2).split(":")[0] + ":" + prayerTimes.get(2).split(":")[1]);
-                long millis = myCal.getTimeInMillis();
-
 /*
                 //Log.e(loadLat(), loadLon());
                 CharSequence a = Long.toString(myCal.getTimeInMillis()) + " " + Long.toString(System.currentTimeMillis());
@@ -643,6 +640,16 @@ public class Main2Activity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_settings) {
             Toast.makeText(Main2Activity.this, "Already on settings", Toast.LENGTH_SHORT).show();
         }
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+      /*  else if (!(item.getItemId() == R.id.action_about)){
+            if(getSupportFragmentManager().getBackStackEntryCount()>0)
+                getSupportFragmentManager().popBackStack();
+            return true;
+        }*/
         return true;
     }
 
