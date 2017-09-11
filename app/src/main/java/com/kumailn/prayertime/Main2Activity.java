@@ -33,7 +33,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-
 public class Main2Activity extends AppCompatActivity {
     public static final String TAG = "com.kumailn.prayertime";
     public static final String defaultMethod = "0";
@@ -91,8 +90,16 @@ public class Main2Activity extends AppCompatActivity {
             mySwitch.setChecked(Boolean.valueOf(loadDaylight()));
         }
         catch (Exception e){
-
         }
+
+        if (loadNumericInstance() == 1){
+            mySwitch.setChecked(TimeZone.getDefault().inDaylightTime( new Date() ));
+            saveDaylight(true);
+            Log.e(TAG, "Switch saved as on");
+        }
+
+        Log.e(String.valueOf(TimeZone.getDefault().inDaylightTime( new Date() )), "DAYLIGHTON?");
+
         //Saves state of switch
         mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -264,20 +271,33 @@ public class Main2Activity extends AppCompatActivity {
 
                 //List of prayertimes for today
                 ArrayList<String> prayerTimes = prayers.getPrayerTimes(todaysCalendar, latitude, longitude, timezone);
+                //Prayer times for tomorrow
+                ArrayList<String> prayerTimes2 = prayers.getPrayerTimes(tomorrowCalendar, latitude, longitude, timezone);
+                //0 = Fajr, 1 = Sunrise, 2 = Dhur, 3 = Asr, 4 = Sunset, 5 = Maghrib, 6 = Isha
                 ArrayList<String> prayerNames = prayers.getTimeNames();
 
                 //Log to logCat
                 Log.e("geo: " + loadLat(), loadLon());
                 Log.e(prayerTimes.get(0) + " Today ", Integer.toString(loadDat()) + prayerNames.get(0));
-
+                Log.e(prayerNames.get(0), "0AAAAAAAAA");
+                Log.e(prayerNames.get(1), "1AAAAAAAAA");
+                Log.e(prayerNames.get(2), "2AAAAAAAAA");
+                Log.e(prayerNames.get(3), "3AAAAAAAAA");
+                Log.e(prayerNames.get(4), "4AAAAAAAAA");
+                Log.e(prayerNames.get(5), "5AAAAAAAAA");
+                Log.e(prayerNames.get(6), "6AAAAAAAAA");
 
                 //Initialize Gregorian Calendars from prayertime data
                 GregorianCalendar myCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, currentHour, currentMin);
                 GregorianCalendar fajrCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(0).split(":")[0]), Integer.parseInt(prayerTimes.get(0).split(":")[1]));
                 GregorianCalendar dhurCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(2).split(":")[0]), Integer.parseInt(prayerTimes.get(2).split(":")[1]));
-                //GregorianCalendar asrCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(3).split(":")[0]), Integer.parseInt(prayerTimes.get(2).split(":")[1]));
-                //GregorianCalendar ishaCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(6).split(":")[0]), Integer.parseInt(prayerTimes.get(2).split(":")[1]));
+                GregorianCalendar asrCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(3).split(":")[0]), Integer.parseInt(prayerTimes.get(3).split(":")[1]));
                 GregorianCalendar maghribCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(5).split(":")[0]), Integer.parseInt(prayerTimes.get(5).split(":")[1]));
+                GregorianCalendar ishaCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(6).split(":")[0]), Integer.parseInt(prayerTimes.get(6).split(":")[1]));
+                //Tomorrow
+                GregorianCalendar fajrCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(0).split(":")[0]), Integer.parseInt(prayerTimes2.get(0).split(":")[1]));
+                GregorianCalendar dhurCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(2).split(":")[0]), Integer.parseInt(prayerTimes2.get(2).split(":")[1]));
+                GregorianCalendar maghribCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(5).split(":")[0]), Integer.parseInt(prayerTimes2.get(5).split(":")[1]));
 
                 //alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent2);
                 //Intent testIntent = new Intent(Main2Activity.this, prayerReceiver.class);
@@ -287,18 +307,31 @@ public class Main2Activity extends AppCompatActivity {
                 //test
                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, dynamicMaghribPendingIntent);
 
-
-                /*if(System.currentTimeMillis() < fajrCal.getTimeInMillis()){
+                if(System.currentTimeMillis() < fajrCal.getTimeInMillis()){
                     alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal.getTimeInMillis(), dynamicFajrPendingIntent);
                     Log.e("FajrTodaySet:",String.valueOf(fajrCal.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal.get(Calendar.MONTH)+1)  + "/" +String.valueOf(fajrCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal.get(Calendar.MINUTE)));
-                }*/
+                }
+                else{
+                    alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(), dynamicFajrPendingIntent);
+                    Log.e("FajrTomorrowSet:",String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1)  + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
+                }
+
                 if(System.currentTimeMillis() < dhurCal.getTimeInMillis()){
                     alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal.getTimeInMillis(), dynamicDhurPendingIntent);
                     Log.e("DhurTodaySet:",String.valueOf(dhurCal.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal.get(Calendar.MINUTE)));
                 }
+                else{
+                    alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(), dynamicDhurPendingIntent);
+                    Log.e("DhurTomorrowSet:",String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
+                }
+
                 if(System.currentTimeMillis() < maghribCal.getTimeInMillis()){
-                    alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal.getTimeInMillis(), dynamicIshaPendingIntent);
+                    alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal.getTimeInMillis(), dynamicMaghribPendingIntent);
                     Log.e("MaghribTodaySet:",String.valueOf(maghribCal.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal.get(Calendar.MINUTE)));
+                }
+                else{
+                    alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(), dynamicMaghribPendingIntent);
+                    Log.e("MaghribTomorrowSet:",String.valueOf(maghribCal2.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal2.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal2.get(Calendar.MINUTE)));
                 }
 
 
@@ -331,21 +364,7 @@ public class Main2Activity extends AppCompatActivity {
                 isha6Pending = PendingIntent.getBroadcast(Main2Activity.this, 21, i2, 0);
                 isha7Pending = PendingIntent.getBroadcast(Main2Activity.this, 22, i2, 0);
 
-
-
                 Log.e("CURRENTTIME::", String.valueOf(currentDay) + " " + String.valueOf(currentMonth) + " " + String.valueOf(currentYear) + ":" + String.valueOf(currentHour) + " " + String.valueOf(currentMin));
-
-
-
-
-
-
-
-
-
-
-
-
 
                 Calendar cal3 = Calendar.getInstance();
                 cal3.set(currentYear, currentMonth - 1, currentDay + 2);
@@ -365,9 +384,7 @@ public class Main2Activity extends AppCompatActivity {
                 Log.e("LATLON!: ", String.valueOf(latitude) + " " + String.valueOf(longitude));
 
 
-                //Prayer times for tomorrow
-                ArrayList<String> prayerTimes2 = prayers.getPrayerTimes(tomorrowCalendar,
-                        latitude, longitude, timezone);
+
                 //Prayer times for 2 days from now
                 ArrayList<String> prayerTimes3 = prayers.getPrayerTimes(cal3,
                         latitude, longitude, timezone);
@@ -411,11 +428,6 @@ public class Main2Activity extends AppCompatActivity {
                 //Log.e(prayerTimes.get(2), Integer.toString(loadDat()) + prayerNames.get(2));
                 //Log.e(prayerTimes.get(1), Integer.toString(loadDat()) + prayerNames.get(1));
                 //Log.e(prayerTimes.get(0), Integer.toString(loadDat()) + prayerNames.get(0));
-
-                //Tomorrow
-                GregorianCalendar fajrCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(0).split(":")[0]), Integer.parseInt(prayerTimes2.get(0).split(":")[1]));
-                GregorianCalendar dhurCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(2).split(":")[0]), Integer.parseInt(prayerTimes2.get(2).split(":")[1]));
-                GregorianCalendar maghribCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(5).split(":")[0]), Integer.parseInt(prayerTimes2.get(5).split(":")[1]));
 
                 //Day after
                 GregorianCalendar fajrCal3 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 2, Integer.parseInt(prayerTimes3.get(0).split(":")[0]), Integer.parseInt(prayerTimes3.get(0).split(":")[1]));
@@ -570,12 +582,7 @@ public class Main2Activity extends AppCompatActivity {
         if (mapIntent.resolveActivity(getPackageManager()) != null) {
             startActivity(mapIntent);
         }
-
-        //Intent myi = new Intent(Main2Activity.this, Main4Activity.class);
-        //startActivity(myi);
     }
-
-
 
     public int loadDat(){
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
@@ -587,6 +594,12 @@ public class Main2Activity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
         String myMethod = sharedPreferences.getString("daylight", defaultMethod);
         return (myMethod);
+    }
+
+    public int loadNumericInstance() {
+        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        int myMethod = sharedPreferences.getInt("numTimes", 0);
+        return myMethod;
     }
 
     public String loadDat1(){

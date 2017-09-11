@@ -164,6 +164,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ishaV2 = (TextView) findViewById(R.id.ishaTime2);
         addressText = (TextView)findViewById(R.id.addressTextView);
 
+        saveNumericInstance(loadNumericInstance() + 1);
+
+        Log.e("Num Times Opened: ", String.valueOf(loadNumericInstance()));
+
+
 
 
         //Old locationManager code
@@ -625,6 +630,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("daylight", Boolean.toString(meth));
         editor.commit();
+    }
+
+    public void saveNumericInstance(int meth){
+        //Local data storage
+        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("numTimes", meth);
+        editor.commit();
+    }
+
+    public int loadNumericInstance(){
+        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        int myMethod = sharedPreferences.getInt("numTimes", 0);
+        return myMethod;
     }
 
     public String loadDaylight(){
