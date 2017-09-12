@@ -608,6 +608,18 @@ public class Main2Activity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //Log.e("MainActivity2", " now paused");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Log.e("MainActivity2", " now resumed");
+    }
+
     //Loads longitude from sharedPrefrences
     public String loadLon(){
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
@@ -816,8 +828,8 @@ public class Main2Activity extends AppCompatActivity {
         int offset = tz1.getRawOffset()/1000/60/60;
 
         //Load longitute and latitute from saved data
-        double latitude = Double.parseDouble(loadLat());
-        double longitude = Double.parseDouble(loadLon());
+        double latitude = Double.parseDouble(loadLon());
+        double longitude = Double.parseDouble(loadLat());
 
         //Load daylight-savings
         Boolean myB = Boolean.valueOf(loadDaylight());

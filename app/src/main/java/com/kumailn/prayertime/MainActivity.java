@@ -802,6 +802,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e("MainActivity", " now resumed");
         if(googleApiClient.isConnected()){
             requestLocationUpdates();
         }
@@ -810,6 +811,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onPause() {
         super.onPause();
+        Log.e("MainActivity", " now paused");
         try{
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, (com.google.android.gms.location.LocationListener) this);
         }
