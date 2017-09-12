@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -19,6 +20,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -127,6 +132,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //number of times button clicked counter
     private int buttonClicks = 0;
     public static int locationViewerInt = 0;
+
+    //Build version
+    final String versionName = BuildConfig.VERSION_NAME;
 
 
     @Override
@@ -887,6 +895,42 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
+    }
+
+    public void aboutDialog(){
+
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(MainActivity.this);
+        }
+
+        String nodata="<br/>&#8226; Version " + versionName + "<br/>&#8226; Made by Kumail Naqvi, 2017<br/>&#8226; kumailmn@gmail.com<br/>&#8226; github.com/kumailn<br/>&#8226";
+        final SpannableString ss = new SpannableString(Html.fromHtml(nodata));
+        Linkify.addLinks(ss, Linkify.ALL);
+
+        //added a TextView
+        final TextView tx1=new TextView(MainActivity.this);
+        tx1.setText(ss);
+        tx1.setAutoLinkMask(RESULT_OK);
+        tx1.setMovementMethod(LinkMovementMethod.getInstance());
+        tx1.setTextSize(16);
+        tx1.setTextColor(Color.WHITE);
+        tx1.setPadding(48, 0, 0, 0);
+
+        builder.setTitle("About the app")
+                //.setMessage("Made by Kumail Naqvi, 2017, Version 1.5, Contact me at kumailmn@gmail.com, github.com/kumailn, powered by mXparser")
+                //.setMessage(ss)
+                .setView(tx1)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+
+                })
+                //.setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 

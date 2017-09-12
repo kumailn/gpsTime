@@ -9,11 +9,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +30,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,36 +49,23 @@ public class Main2Activity extends AppCompatActivity {
     PendingIntent dynamicMaghribPendingIntent;
     PendingIntent dynamicIshaPendingIntent;
 
-
     PendingIntent pendingIntent;
     PendingIntent pendingIntent2;
     PendingIntent pendingIntent3;
-    PendingIntent pendingIntent4;
-    PendingIntent pendingIntent5;
-    PendingIntent fajr2Pending;
-    PendingIntent fajr3Pending;
-    PendingIntent fajr4Pending;
-    PendingIntent fajr5Pending;
-    PendingIntent fajr6Pending;
-    PendingIntent fajr7Pending;
-    PendingIntent dhur2Pending;
-    PendingIntent dhur3Pending;
-    PendingIntent dhur4Pending;
-    PendingIntent dhur5Pending;
-    PendingIntent dhur6Pending;
-    PendingIntent dhur7Pending;
-    PendingIntent isha2Pending;
-    PendingIntent isha3Pending;
-    PendingIntent isha4Pending;
-    PendingIntent isha5Pending;
-    PendingIntent isha6Pending;
-    PendingIntent isha7Pending;
     PendingIntent testPendingIntent1;
 
     AlarmManager alarm_manager;
     private Switch mySwitch;
+    private Switch fajrSwitch;
+    private Switch asrSwitch;
+    private Switch dhurSwitch;
+    private Switch maghribSwitch;
+    private Switch ishaSwitch;
 
     public static boolean aSent = false;
+    //Build version number
+    final String versionName = BuildConfig.VERSION_NAME;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +79,11 @@ public class Main2Activity extends AppCompatActivity {
         getSupportActionBar().setTitle("Settings");
 
         mySwitch = (Switch)findViewById(R.id.switch1);
+        fajrSwitch = (Switch)findViewById(R.id.fajrSwitch);
+        dhurSwitch = (Switch)findViewById(R.id.dhurSwitch);
+        asrSwitch = (Switch)findViewById(R.id.asrSwitch);
+        maghribSwitch = (Switch)findViewById(R.id.maghribSwitch);
+        ishaSwitch = (Switch)findViewById(R.id.ishaSwitch);
 
         try{
             //tries to set switch to saved position
@@ -92,6 +91,12 @@ public class Main2Activity extends AppCompatActivity {
         }
         catch (Exception e){
         }
+
+        try{fajrSwitch.setChecked(Boolean.valueOf(loadSwitchAlarm("FajrAlarm")));} catch (Exception e){}
+        try{dhurSwitch.setChecked(Boolean.valueOf(loadSwitchAlarm("DhurAlarm")));} catch (Exception e){}
+        try{asrSwitch.setChecked(Boolean.valueOf(loadSwitchAlarm("AsrAlarm")));} catch (Exception e){}
+        try{maghribSwitch.setChecked(Boolean.valueOf(loadSwitchAlarm("MaghribAlarm")));} catch (Exception e){}
+        try{ishaSwitch.setChecked(Boolean.valueOf(loadSwitchAlarm("IshaAlarm")));} catch (Exception e){}
 
         if (loadNumericInstance() == 1){
             mySwitch.setChecked(TimeZone.getDefault().inDaylightTime( new Date() ));
@@ -118,13 +123,84 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
+        fajrSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(fajrSwitch.isChecked()){
+                    saveSwitchAlarm("FajrAlarm", "true");
+                    Log.e(TAG, "Fajr Switch saved as on");
+                }
+                else {
+                    saveSwitchAlarm("FajrAlarm", "false");
+                    Log.e(TAG, "Switch saved as off");
+                }
+            }
+        });
+
+        dhurSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(dhurSwitch.isChecked()){
+                    saveSwitchAlarm("DhurAlarm", "true");
+                    Log.e(TAG, "dhur Switch saved as on");
+                }
+                else {
+                    saveSwitchAlarm("DhurAlarm", "false");
+                    Log.e(TAG, "Switch saved as off");
+                }
+            }
+        });
+
+        asrSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(asrSwitch.isChecked()){
+                    saveSwitchAlarm("AsrAlarm", "true");
+                    Log.e(TAG, "asr Switch saved as on");
+                }
+                else {
+                    saveSwitchAlarm("AsrAlarm", "false");
+                    Log.e(TAG, "Switch saved as off");
+                }
+            }
+        });
+
+        maghribSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(maghribSwitch.isChecked()){
+                    saveSwitchAlarm("MaghribAlarm", "true");
+                    Log.e(TAG, "maghrib Switch saved as on");
+                }
+                else {
+                    saveSwitchAlarm("MaghribAlarm", "false");
+                    Log.e(TAG, "Switch saved as off");
+                }
+            }
+        });
+
+        ishaSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(asrSwitch.isChecked()){
+                    saveSwitchAlarm("IshaAlarm", "true");
+                    Log.e(TAG, "isha Switch saved as true");
+                }
+                else {
+                    saveSwitchAlarm("IshaAlarm", "false");
+                    Log.e(TAG, "Switch saved as off");
+                }
+            }
+        });
+
+
+
         Button aB = (Button)findViewById(R.id.alarmButton);
         Button offButton = (Button)findViewById(R.id.alarmOffButon);
         Button setHomeButton = (Button)findViewById(R.id.setHomeButton);
 
         //Alarm manager object initialization
         alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
 
         //Spinner object setup
         final Spinner mySpin = (Spinner)findViewById(R.id.myspin1);
@@ -297,8 +373,10 @@ public class Main2Activity extends AppCompatActivity {
                 GregorianCalendar ishaCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, Integer.parseInt(prayerTimes.get(6).split(":")[0]), Integer.parseInt(prayerTimes.get(6).split(":")[1]));
                 //Tomorrow
                 GregorianCalendar fajrCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(0).split(":")[0]), Integer.parseInt(prayerTimes2.get(0).split(":")[1]));
+                GregorianCalendar asrCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(3).split(":")[0]), Integer.parseInt(prayerTimes2.get(3).split(":")[1]));
                 GregorianCalendar dhurCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(2).split(":")[0]), Integer.parseInt(prayerTimes2.get(2).split(":")[1]));
                 GregorianCalendar maghribCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(5).split(":")[0]), Integer.parseInt(prayerTimes2.get(5).split(":")[1]));
+                GregorianCalendar ishaCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes2.get(6).split(":")[0]), Integer.parseInt(prayerTimes2.get(6).split(":")[1]));
 
                 //alarm_manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent2);
                 //Intent testIntent = new Intent(Main2Activity.this, prayerReceiver.class);
@@ -462,12 +540,6 @@ public class Main2Activity extends AppCompatActivity {
 
 /*
                 Toast.makeText(Main2Activity.this, String.valueOf(latitude) + " " + String.valueOf(longitude), Toast.LENGTH_LONG).show();
-*/
-
-
-/*
-
-
                 alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(), testPendingIntent1);
                 Log.e("FajrTomSet:",String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
                 alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(), testPendingIntent1);
@@ -516,11 +588,9 @@ public class Main2Activity extends AppCompatActivity {
                 alarm_manager.cancel(dynamicIshaPendingIntent);
                 alarm_manager.cancel(dynamicAsrPendingIntent);
                 alarm_manager.cancel(dynamicMaghribPendingIntent);
-
                 saveAlarm("off");
 
                 Toast.makeText(Main2Activity.this, "Adhans Off", Toast.LENGTH_SHORT).show();
-
                 //i2.putExtra("extra", "alarm off");
                 //sendBroadcast(i2);
             }
@@ -533,13 +603,14 @@ public class Main2Activity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    //Loads longitude from sharedPrefrences
     public String loadLon(){
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
         String myMethod = sharedPreferences.getString("lon", defaultMethod);
         return (myMethod);
     }
 
-    //load latitude data
+    //load latitude from sharedPrefrences
     public String loadLat(){
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
         String myMethod = sharedPreferences.getString("lat", defaultMethod);
@@ -553,6 +624,19 @@ public class Main2Activity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("alarm", meth);
         editor.commit();
+    }
+
+    public void saveSwitchAlarm(String alarmName, String state){
+        //Local data storage
+        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(alarmName, state);
+        editor.commit();
+    }
+    public String loadSwitchAlarm(String alarmName){
+        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        String myMethod = sharedPreferences.getString(alarmName, defaultMethod);
+        return (myMethod);
     }
 
     //Method to load alarm state
@@ -633,6 +717,42 @@ public class Main2Activity extends AppCompatActivity {
         homeL.add(sharedPreferences.getString("homeLon", defaultMethod));
         return (homeL);
     }
+    public void aboutDialog(){
+
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(Main2Activity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(Main2Activity.this);
+        }
+
+        String nodata="<br/>&#8226; Version " + versionName + "<br/>&#8226; Made by Kumail Naqvi, 2017<br/>&#8226; kumailmn@gmail.com<br/>&#8226; github.com/kumailn<br/>";
+        final SpannableString ss = new SpannableString(Html.fromHtml(nodata));
+        Linkify.addLinks(ss, Linkify.ALL);
+
+        //added a TextView
+        final TextView tx1=new TextView(Main2Activity.this);
+        tx1.setText(ss);
+        tx1.setAutoLinkMask(RESULT_OK);
+        tx1.setMovementMethod(LinkMovementMethod.getInstance());
+        tx1.setTextSize(16);
+        tx1.setTextColor(Color.WHITE);
+        tx1.setPadding(48, 0, 0, 0);
+
+        builder.setTitle("About the app")
+                //.setMessage("Made by Kumail Naqvi, 2017, Version 1.5, Contact me at kumailmn@gmail.com, github.com/kumailn, powered by mXparser")
+                //.setMessage(ss)
+                .setView(tx1)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+
+                })
+                //.setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -644,6 +764,8 @@ public class Main2Activity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case (R.id.action_about):
+                aboutDialog();
         }
       /*  else if (!(item.getItemId() == R.id.action_about)){
             if(getSupportFragmentManager().getBackStackEntryCount()>0)

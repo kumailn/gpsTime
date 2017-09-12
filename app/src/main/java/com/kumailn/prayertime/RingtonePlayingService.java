@@ -162,7 +162,6 @@ public class RingtonePlayingService extends Service  {
         //Initialize URI location of audio file
         Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/sms");
 
-
         //Error catch if uri is null, set audio to default
         if (alarmUri == null)
         {
