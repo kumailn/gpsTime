@@ -173,6 +173,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         addressText = (TextView)findViewById(R.id.addressTextView);
 
         saveNumericInstance(loadNumericInstance() + 1);
+        if(loadNumericInstance() == 1){
+            saveDaylight(TimeZone.getDefault().inDaylightTime( new Date() ));
+            Log.e("MainActivity", "Switch saved as on");
+        }
 
         Log.e("Num Times Opened: ", String.valueOf(loadNumericInstance()));
 

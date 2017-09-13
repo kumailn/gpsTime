@@ -7,10 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -29,6 +32,9 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -97,7 +103,7 @@ public class Main2Activity extends AppCompatActivity {
 
         if (loadNumericInstance() == 1){
             mySwitch.setChecked(TimeZone.getDefault().inDaylightTime( new Date() ));
-            saveDaylight(true);
+            saveDaylight(TimeZone.getDefault().inDaylightTime( new Date() ));
             Log.e(TAG, "Switch saved as on");
         }
 
@@ -187,7 +193,7 @@ public class Main2Activity extends AppCompatActivity {
         ishaSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(asrSwitch.isChecked()){
+                if(ishaSwitch.isChecked()){
                     saveSwitchAlarm("IshaAlarm", "true");
                     onAlarmSwitchClick("Isha");
                     Log.e(TAG, "isha Switch saved as true");
@@ -600,6 +606,10 @@ public class Main2Activity extends AppCompatActivity {
                 //sendBroadcast(i2);
             }
         });
+
+
+        SendLoagcatMail();
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -735,6 +745,29 @@ public class Main2Activity extends AppCompatActivity {
         homeL.add(sharedPreferences.getString("homeLon", defaultMethod));
         return (homeL);
     }
+
+    public void SendLoagcatMail(){
+        // save logcat in file
+        File root = new File("/data/data/com.kumailn.prayertime/myData");
+        try {
+            Runtime.getRuntime().exec("logcat -f " + root.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //send file using email
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        // Set type to "email"
+        emailIntent.setType("vnd.android.cursor.dir/email");
+        String to[] = {"kumailmn@gmail.com"};
+        emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
+        // the attachment
+        emailIntent .putExtra(Intent.EXTRA_STREAM, root.getAbsolutePath());
+        // the mail subject
+        emailIntent .putExtra(Intent.EXTRA_SUBJECT, "LOGCAT");
+        startActivity(Intent.createChooser(emailIntent , "Send email..."));
+    }
+
     public void aboutDialog(){
 
         AlertDialog.Builder builder;
@@ -828,8 +861,8 @@ public class Main2Activity extends AppCompatActivity {
         int offset = tz1.getRawOffset()/1000/60/60;
 
         //Load longitute and latitute from saved data
-        double latitude = Double.parseDouble(loadLon());
-        double longitude = Double.parseDouble(loadLat());
+        double latitude = Double.parseDouble(loadLat());
+        double longitude = Double.parseDouble(loadLon());
 
         //Load daylight-savings
         Boolean myB = Boolean.valueOf(loadDaylight());
@@ -870,14 +903,14 @@ public class Main2Activity extends AppCompatActivity {
 
         //Log to logCat
         Log.e("geo: " + loadLat(), loadLon());
-        Log.e(prayerTimes.get(0) + " Today ", Integer.toString(loadDat()) + prayerNames.get(0));
+       /* Log.e(prayerTimes.get(0) + " Today ", Integer.toString(loadDat()) + prayerNames.get(0));
         Log.e(prayerNames.get(0), "0AAAAAAAAA");
         Log.e(prayerNames.get(1), "1AAAAAAAAA");
         Log.e(prayerNames.get(2), "2AAAAAAAAA");
         Log.e(prayerNames.get(3), "3AAAAAAAAA");
         Log.e(prayerNames.get(4), "4AAAAAAAAA");
         Log.e(prayerNames.get(5), "5AAAAAAAAA");
-        Log.e(prayerNames.get(6), "6AAAAAAAAA");
+        Log.e(prayerNames.get(6), "6AAAAAAAAA");*/
 
         //Initialize Gregorian Calendars from prayertime data
         GregorianCalendar myCal = new GregorianCalendar(currentYear, currentMonth - 1, currentDay, currentHour, currentMin);
