@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -173,7 +174,12 @@ public class RingtonePlayingService extends Service  {
         //Initialize ringtone from uri location
         Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), alarmUri);
         //Set ringtone type to alarm
-        ringtone.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            ringtone.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
+        }
+        else{
+            ringtone.setStreamType(AudioManager.STREAM_ALARM);
+        }
 
         alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent nexTimeIntent = new Intent(getApplicationContext(), prayerReceiver.class);
