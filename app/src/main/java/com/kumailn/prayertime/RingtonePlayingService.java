@@ -187,15 +187,41 @@ public class RingtonePlayingService extends Service  {
         pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, nexTimeIntent, 0);
 
         if(prayerName.equals("Fajr")){
-            alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(),  pendingIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(),  pendingIntent);
+            }
+            else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(),  pendingIntent);
+            }
+            else{
+                alarm_manager.set(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(),  pendingIntent);
+            }
             Log.e("ServiceFajrSet:",String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
         }
+
         else if(prayerName.equals("Asr")){
-            alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, asrCal2.getTimeInMillis(),  pendingIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, asrCal2.getTimeInMillis(),  pendingIntent);
+            }
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, asrCal2.getTimeInMillis(),  pendingIntent);
+            }
+            else{
+                alarm_manager.set(AlarmManager.RTC_WAKEUP, asrCal2.getTimeInMillis(),  pendingIntent);
+            }
             Log.e("ServiceAsrSet:",String.valueOf(asrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(asrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(asrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(asrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(asrCal2.get(Calendar.MINUTE)));
         }
+
         else if (prayerName.equals("Dhur")){
-            alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(),  pendingIntent);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(),  pendingIntent);
+            }
+            else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(),  pendingIntent);
+            }
+            else{
+                alarm_manager.set(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(),  pendingIntent);
+            }
             Log.e("ServiceDhurSet:",String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
         }
         else if(prayerName.equals("Maghrib")){
