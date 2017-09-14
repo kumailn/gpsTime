@@ -225,11 +225,27 @@ public class RingtonePlayingService extends Service  {
             Log.e("ServiceDhurSet:",String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
         }
         else if(prayerName.equals("Maghrib")){
-            alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(),  pendingIntent);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(),  pendingIntent);
+            }
+            else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(),  pendingIntent);
+            }
+            else{
+                alarm_manager.set(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(),  pendingIntent);
+            }
             Log.e("ServiceDhurSet:",String.valueOf(maghribCal2.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal2.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal2.get(Calendar.MINUTE)));
         }
         else if(prayerName.equals("Isha")){
-            alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(),  pendingIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(),  pendingIntent);
+            }
+            else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(),  pendingIntent);
+            }
+            else{
+                alarm_manager.set(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(),  pendingIntent);
+            }
             Log.e("ServiceIshaSet:",String.valueOf(ishaCal2.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal2.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal2.get(Calendar.MINUTE)));
         }
 
