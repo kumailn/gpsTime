@@ -163,8 +163,8 @@ public class RingtonePlayingService extends Service  {
         GregorianCalendar ishaCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes.get(6).split(":")[0]), Integer.parseInt(prayerTimes.get(6).split(":")[1]));
 
         //Initialize URI location of audio file
-        Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/sms");
-
+        //Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/sms");
+        Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/adhan5");
         //Error catch if uri is null, set audio to default
         if (alarmUri == null)
         {
