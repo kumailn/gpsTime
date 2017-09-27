@@ -14,6 +14,7 @@ import android.util.Log;
 public class prayerReceiver extends BroadcastReceiver {
 
     @Override
+    //TODO: Remove class
     public void onReceive(Context context, Intent intent) {
         String prayerName = intent.getStringExtra("Prayer");
         Log.e("PrayerReciever: ", prayerName);
