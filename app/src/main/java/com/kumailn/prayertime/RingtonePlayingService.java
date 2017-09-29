@@ -315,4 +315,12 @@ public class RingtonePlayingService extends Service  {
         String myMethod = sharedPreferences.getString("alarm", defaultMethod);
         return (myMethod);
     }
+
+    public void saveAlarmTimeDebug(String alarmName, String setTime){
+        //Local data storage
+        SharedPreferences sharedPreferences = getSharedPreferences("debugTimes", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(alarmName, setTime);
+        editor.commit();
+    }
 }
