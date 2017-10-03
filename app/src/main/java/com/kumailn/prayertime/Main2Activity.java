@@ -430,11 +430,6 @@ public class Main2Activity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Tomorrow: " + String.valueOf(maghribCal2.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal2.get(Calendar.MINUTE)), Toast.LENGTH_SHORT).show();
                 }
 
-
-                Intent i2 = new Intent(Main2Activity.this, Alarm_Receiver.class);
-                i2.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                i2.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                Intent i3 = new Intent(Main2Activity.this, Alarm_Receiver.class);
            /*     //Pending intent for each prayer notification because the time changes everyday - need a better solution.
                 pendingIntent = PendingIntent.getBroadcast(Main2Activity.this, 0, i2, PendingIntent.FLAG_UPDATE_CURRENT);
                 pendingIntent2 = PendingIntent.getBroadcast(Main2Activity.this, 1, i3, PendingIntent.FLAG_UPDATE_CURRENT);

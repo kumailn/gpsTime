@@ -116,6 +116,8 @@ public class RingtonePlayingService extends Service  {
         Boolean myB = Boolean.valueOf(loadDaylight());
         double timezone = offset;
 
+        saveServiceStartNumber(loadServiceStartNumber() + 1);
+
         //Adjust timezone based on daylight savings
         if(myB == null){
             timezone = offset;
@@ -320,7 +322,24 @@ public class RingtonePlayingService extends Service  {
         //Local data storage
         SharedPreferences sharedPreferences = getSharedPreferences("debugTimes", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(alarmName, setTime);
+        editor.putString(alarmName + String.valueOf(loadServiceStartNumber()), setTime);
         editor.commit();
     }
+
+    public void saveServiceStartNumber(int meth){
+        //Local data storage
+        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("serviceNumber", meth);
+        editor.commit();
+    }
+
+    public int loadServiceStartNumber() {
+        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        int myMethod = sharedPreferences.getInt("serviceNumber", 0);
+        return myMethod;
+    }
+
+
+
 }
