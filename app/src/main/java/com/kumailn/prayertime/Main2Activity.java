@@ -608,9 +608,6 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
-
-        SendLoagcatMail();
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

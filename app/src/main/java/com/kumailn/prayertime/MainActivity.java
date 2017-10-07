@@ -55,6 +55,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.stetho.Stetho;
 import com.google.android.gms.common.ConnectionResult;
@@ -63,6 +64,8 @@ import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.nearby.messages.Strategy;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -310,6 +313,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 saveLat(Double.toString(mn1));
                 saveLon(Double.toString(mn2));
 
+                //TODO: Check this method
+                saveLatitude(Double.toString(mn1));
+                saveLongitude(Double.toString(mn2));
+
                 Boolean myB = Boolean.valueOf(loadDaylight());
                 double timezone = offset;
 
@@ -454,7 +461,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
 
-
     }//OnCreate ENDS
 
     @Override
@@ -546,7 +552,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onLocationChanged(Location location) {
         mn1 = location.getLatitude();
         mn2 = location.getLongitude();
-
         save1(mn1, mn2);
     }
 
@@ -627,6 +632,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         editor.putString("lat", meth);
         editor.commit();
     }
+
+    public void saveLongitude(String meth){
+        //Local data storage
+        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("lonTwo", meth);
+        editor.commit();
+    }
+
+    public void saveLatitude(String meth){
+        //Local data storage
+        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("latTwo", meth);
+        editor.commit();
+    }
+
+
+
+
     public String loadLon(){
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
         String myMethod = sharedPreferences.getString("lon", defaultMethod);
@@ -675,6 +700,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     public class jsonTask extends AsyncTask<String, String, String> {
 
