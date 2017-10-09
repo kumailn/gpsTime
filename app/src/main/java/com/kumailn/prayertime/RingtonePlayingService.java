@@ -268,7 +268,9 @@ public class RingtonePlayingService extends Service  {
 
             PendingIntent pendingIntentMain = PendingIntent.getActivity(this, 0, intent_main, PendingIntent.FLAG_CANCEL_CURRENT);
             Notification notificationPopup = new Notification.Builder(this).setContentTitle("It's " + prayerName + " time!").setContentText("Click here")
-                    .setContentIntent(pendingIntentMain).setAutoCancel(true).setSmallIcon(R.drawable.mosque).setPriority(Notification.PRIORITY_MAX)
+                    .setContentIntent(pendingIntentMain).setAutoCancel(true).setSmallIcon(R.drawable.mosque)
+                    //Option to show timestamp in notification, set show timestamp to true
+                    .setWhen(System.currentTimeMillis()).setShowWhen(true).setPriority(Notification.PRIORITY_MAX)
                     .setDefaults(Notification.DEFAULT_ALL).build();
             notificationManager.notify(0, notificationPopup);
         }
