@@ -354,8 +354,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         latitude, longitude, timezone);
                 ArrayList<String> prayerNames = prayers.getTimeNames();
 
-
-
                 fajrV.setText("Fajr:");
                 dhurV.setText("Dhur:");
                 asrV.setText("Asr:");
@@ -434,9 +432,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     animation6.addAnimation(fadeIn6);
                     addressText.setAnimation(animation6);
                 }
-
-
-
 
                 // Calendar with today's date
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

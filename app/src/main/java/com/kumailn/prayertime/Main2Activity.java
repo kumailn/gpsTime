@@ -631,14 +631,14 @@ public class Main2Activity extends AppCompatActivity {
     //Loads longitude from sharedPrefrences
     public String loadLon(){
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
-        String myMethod = sharedPreferences.getString("lon", defaultMethod);
+        String myMethod = sharedPreferences.getString("lonTwo", defaultMethod);
         return (myMethod);
     }
 
     //load latitude from sharedPrefrences
     public String loadLat(){
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
-        String myMethod = sharedPreferences.getString("lat", defaultMethod);
+        String myMethod = sharedPreferences.getString("latTwo", defaultMethod);
         return (myMethod);
     }
 
