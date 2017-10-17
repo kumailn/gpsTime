@@ -287,14 +287,14 @@ public class RingtonePlayingService extends Service  {
     public String loadLon(){
         //Method to load longitute data
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
-        String myMethod = sharedPreferences.getString("lon", defaultMethod);
+        String myMethod = sharedPreferences.getString("lonTwo", defaultMethod);
         return (myMethod);
     }
 
     public String loadLat(){
         //Method to load latitute data
         SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
-        String myMethod = sharedPreferences.getString("lat", defaultMethod);
+        String myMethod = sharedPreferences.getString("latTwo", defaultMethod);
         return (myMethod);
     }
 
