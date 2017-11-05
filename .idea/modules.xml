@@ -4,8 +4,8 @@
     <modules>
       <module fileurl="file://C:\Users\Kumail\AndroidStudioProjects\gpsTime\PrayerTime.iml" filepath="C:\Users\Kumail\AndroidStudioProjects\gpsTime\PrayerTime.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\Kumail\AndroidStudioProjects\gpsTime\app\app.iml" filepath="C:\Users\Kumail\AndroidStudioProjects\gpsTime\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/gpsTime.iml" filepath="$PROJECT_DIR$/.idea/gpsTime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gpsTime.iml" filepath="$PROJECT_DIR$/gpsTime.iml" />
+      <module fileurl="file://C:\Users\Kumail\AndroidStudioProjects\gpsTime\.idea\gpsTime.iml" filepath="C:\Users\Kumail\AndroidStudioProjects\gpsTime\.idea\gpsTime.iml" />
       <module fileurl="file://C:\Users\Kumail\AndroidStudioProjects\gpsTime\gpsTime.iml" filepath="C:\Users\Kumail\AndroidStudioProjects\gpsTime\gpsTime.iml" />
     </modules>
   </component>
