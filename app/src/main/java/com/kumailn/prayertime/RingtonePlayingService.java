@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.AudioAttributes;
@@ -167,6 +168,7 @@ public class RingtonePlayingService extends Service  {
         //Initialize URI location of audio file
         //Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/sms");
         Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/adhan_1");
+
         //Error catch if uri is null, set audio to default
         if (alarmUri == null)
         {
@@ -175,6 +177,7 @@ public class RingtonePlayingService extends Service  {
 
         //Initialize ringtone from uri location
         Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), alarmUri);
+
         //Set ringtone type to alarm
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             ringtone.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
@@ -321,11 +324,17 @@ public class RingtonePlayingService extends Service  {
     }
 
     public void saveAlarmTimeDebug(String alarmName, String setTime){
-        //Local data storage
-        SharedPreferences sharedPreferences = getSharedPreferences("debugTimes", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(alarmName + String.valueOf(loadServiceStartNumber()), setTime);
-        editor.commit();
+        //Save to SQL Database for debugging purposes
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
+        String formattedDate = sdf.format(date);
+
+        SQLiteDatabase prayerTimesDebugDatabase = this.openOrCreateDatabase("prayers", MODE_PRIVATE, null);
+
+        prayerTimesDebugDatabase.execSQL("CREATE TABLE IF NOT EXISTS prayerTimes (id INTEGER PRIMARY KEY, prayerName VARCHAR, setTime VARCHAR, setAt VARCHAR)");
+
+        prayerTimesDebugDatabase.execSQL("INSERT INTO prayerTimes VALUES (" + alarmName + "," + setTime + "," + formattedDate + ")");
+
     }
 
     public void saveServiceStartNumber(int meth){
