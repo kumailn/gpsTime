@@ -201,6 +201,7 @@ public class RingtonePlayingService extends Service  {
             else{
                 alarm_manager.set(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(),  pendingIntent);
             }
+            saveAlarmTimeDebug("Fajr", String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
             Log.e("ServiceFajrSet:",String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
         }
 
@@ -214,6 +215,7 @@ public class RingtonePlayingService extends Service  {
             else{
                 alarm_manager.set(AlarmManager.RTC_WAKEUP, asrCal2.getTimeInMillis(),  pendingIntent);
             }
+            saveAlarmTimeDebug("Asr",String.valueOf(asrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(asrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(asrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(asrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(asrCal2.get(Calendar.MINUTE)) );
             Log.e("ServiceAsrSet:",String.valueOf(asrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(asrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(asrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(asrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(asrCal2.get(Calendar.MINUTE)));
         }
 
@@ -227,6 +229,7 @@ public class RingtonePlayingService extends Service  {
             else{
                 alarm_manager.set(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(),  pendingIntent);
             }
+            saveAlarmTimeDebug("Dhur", String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
             Log.e("ServiceDhurSet:",String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
         }
         else if(prayerName.equals("Maghrib")){
@@ -239,6 +242,7 @@ public class RingtonePlayingService extends Service  {
             else{
                 alarm_manager.set(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(),  pendingIntent);
             }
+            saveAlarmTimeDebug("Maghrib", String.valueOf(maghribCal2.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal2.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal2.get(Calendar.MINUTE)));
             Log.e("ServiceDhurSet:",String.valueOf(maghribCal2.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal2.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal2.get(Calendar.MINUTE)));
         }
         else if(prayerName.equals("Isha")){
@@ -251,6 +255,7 @@ public class RingtonePlayingService extends Service  {
             else{
                 alarm_manager.set(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(),  pendingIntent);
             }
+            saveAlarmTimeDebug("Isha", String.valueOf(ishaCal2.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal2.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal2.get(Calendar.MINUTE)));
             Log.e("ServiceIshaSet:",String.valueOf(ishaCal2.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal2.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal2.get(Calendar.MINUTE)));
         }
 
@@ -258,14 +263,17 @@ public class RingtonePlayingService extends Service  {
             ringtone.stop();
         }
         else {
-            //LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
-            //googleApiClient.connect();
+
             Log.e("ringtoneService: ", "In Ringtone Service");
-            //Log.e(String.valueOf(mn1), String.valueOf(mn2) + "GOOGLE");
-            //Log.e("com.example.ali.gpstime", "STARTING SOUND NOW");
 
-            ringtone.play();
+            SharedPreferences sharedPreferences = getSharedPreferences("myData", MODE_PRIVATE);
 
+            //Play ringtone only if the soundOn switch is checked
+            if(sharedPreferences.getBoolean("soundOn", false)){
+                ringtone.play();
+            }
+
+            //Create notification
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             Intent intent_main = new Intent(this.getApplicationContext(), Main2Activity.class);
 
@@ -278,7 +286,7 @@ public class RingtonePlayingService extends Service  {
             notificationManager.notify(0, notificationPopup);
         }
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     public int loadDat(){
@@ -333,7 +341,7 @@ public class RingtonePlayingService extends Service  {
 
         prayerTimesDebugDatabase.execSQL("CREATE TABLE IF NOT EXISTS prayerTimes (id INTEGER PRIMARY KEY, prayerName VARCHAR, setTime VARCHAR, setAt VARCHAR)");
 
-        prayerTimesDebugDatabase.execSQL("INSERT INTO prayerTimes VALUES (" + alarmName + "," + setTime + "," + formattedDate + ")");
+        prayerTimesDebugDatabase.execSQL("INSERT INTO prayerTimes (prayerName, setTime, setAt) VALUES (" + alarmName + "," + setTime + "," + formattedDate + ")");
 
     }
 
