@@ -186,10 +186,13 @@ public class RingtonePlayingService extends Service  {
             ringtone.setStreamType(AudioManager.STREAM_ALARM);
         }
 
+        //Initialize intents
         alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent nexTimeIntent = new Intent(getApplicationContext(), prayerReceiver.class);
         nexTimeIntent.putExtra("Prayer", prayerName);
         pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, nexTimeIntent, 0);
+
+
 
         if(prayerName.equals("Fajr")){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -341,7 +344,7 @@ public class RingtonePlayingService extends Service  {
 
         prayerTimesDebugDatabase.execSQL("CREATE TABLE IF NOT EXISTS prayerTimes (id INTEGER PRIMARY KEY, prayerName VARCHAR, setTime VARCHAR, setAt VARCHAR)");
 
-        prayerTimesDebugDatabase.execSQL("INSERT INTO prayerTimes (prayerName, setTime, setAt) VALUES (" + alarmName + "," + setTime + "," + formattedDate + ")");
+        prayerTimesDebugDatabase.execSQL("INSERT INTO prayerTimes (prayerName, setTime, setAt) VALUES (\'" + alarmName + "\',\'" + setTime + "\',\'" + formattedDate + "\')");
 
     }
 
