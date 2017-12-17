@@ -65,7 +65,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.nearby.messages.Strategy;
-
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -187,35 +186,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Log.e("Num Times Opened: ", String.valueOf(loadNumericInstance()));
 
 
-
-
-        //Old locationManager code
-        /*
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationListener = new LocationListen er() {
-            @Override
-            public void onLocationChanged(Location location) {
-                //jText.setText(Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()));
-                mn1 = location.getLatitude();
-                mn2 = location.getLongitude();
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-            }
-        };
-        */
-
-
-
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
@@ -230,12 +200,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+
             // Build the alert dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Location Services Not Active");
             builder.setMessage("Please enable Location Services and GPS");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialogInterface, int i) {
+
                     // Show location settings when the user acknowledges the alert dialog
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(intent);
@@ -245,9 +217,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         }
-
-
-        //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
         //OnClick button action
         checkB.setOnClickListener(new View.OnClickListener() {
@@ -262,7 +231,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 //Toast.makeText(Main2Activity.this, str, Toast.LENGTH_SHORT).show();
 
                 //Animations
-
                 if(buttonClicks < 1){
                     Animation animSlide = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide);
                     iv.startAnimation(animSlide);
@@ -289,7 +257,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 }
 
-
                 while (System.currentTimeMillis() < ft) {
                     if (mn1 != 0.00) {
                         break;
@@ -313,7 +280,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 saveLat(Double.toString(mn1));
                 saveLon(Double.toString(mn2));
 
-                //TODO: Check this method
                 saveLatitude(Double.toString(mn1));
                 saveLongitude(Double.toString(mn2));
 
@@ -445,14 +411,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 dayV.setText(dateFormat.format(cal2.getTime()));
 
-                //Toast.makeText(Main2Activity.this, (prayerNames.get(0) + " - " + prayerTimes.get(0)), Toast.LENGTH_LONG).show();
-
-                //new jsonTask2().execute("https://maps.googleapis.com/maps/api/timezone/json?location=" + Double.toString(12.6392316)+","+ Double.toString(-8.002889200000027) +"&timestamp=" + Long.toString(System.currentTimeMillis()/1000) + "&key=AIzaSyCWGwEXTr-WnOW5YANriYkII-MohBedO9I");
-                //new jsonTask2().execute("https://maps.googleapis.com/maps/api/timezone/json?location=" + Double.toString(mn1)+","+ Double.toString(mn2) +"&timestamp=1458000000&key=AIzaSyCWGwEXTr-WnOW5YANriYkII-MohBedO9I");
-                //new jsonTask().execute("http://api.aladhan.com/timings/" + (mn3) + "?latitude=" + Double.toString(mn1) + "&longitude=" + Double.toString(mn2) + "&timezonestring=" + timezoneID + "&method=" + Integer.toString(loadDat()));
-                //String cc = Double.toString(mn1) + "   " + Double.toString(mn2);
-                //ttv.setText(cc);
-                //jText.setText(Double.toString(8.99));
             }
         });
 
@@ -853,75 +811,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     }
 
-    public class jsonTask2 extends AsyncTask<String, String, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-
-
-            HttpsURLConnection connection = null;
-            BufferedReader reader = null;
-
-
-            try {
-                URL myURL = new URL(params[0]);
-                connection = (HttpsURLConnection)myURL.openConnection();
-                connection.connect();
-
-                InputStream stream = connection.getInputStream();
-
-                reader = new BufferedReader(new InputStreamReader(stream));
-                StringBuffer buffer = new StringBuffer();
-                String line = "";
-
-                while ((line = reader.readLine()) != null){
-                    buffer.append(line);
-                }
-
-                String finalJSON = buffer.toString();
-
-                JSONObject parentOb = new JSONObject(finalJSON);
-
-                timeZone = parentOb.getString("timeZoneId");
-                //sunriseTime = parentOb.getJSONObject("data").getJSONObject("timings").getString("Sunrise");
-
-                return timeZone;
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                if(connection != null){
-                    connection.disconnect();
-                }
-                if(reader != null){
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                try {
-                    if (reader != null){
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-
-
-        }
-    }
 
     private boolean checkInternetAccess() {
         ConnectivityManager connectivityManager

@@ -79,6 +79,12 @@ public class RingtonePlayingService extends Service  {
     public static final String defaultMethod = "0";
     AlarmManager alarm_manager;
     PendingIntent pendingIntent;
+    PendingIntent dynamicFajrPendingIntent;
+    PendingIntent dynamicAsrPendingIntent;
+    PendingIntent dynamicDhurPendingIntent;
+    PendingIntent dynamicMaghribPendingIntent;
+    PendingIntent dynamicIshaPendingIntent;
+
 
     @Nullable
     @Override
@@ -166,8 +172,8 @@ public class RingtonePlayingService extends Service  {
         GregorianCalendar ishaCal2 = new GregorianCalendar(currentYear, currentMonth - 1, currentDay + 1, Integer.parseInt(prayerTimes.get(6).split(":")[0]), Integer.parseInt(prayerTimes.get(6).split(":")[1]));
 
         //Initialize URI location of audio file
-        //Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/sms");
-        Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/adhan_1");
+        Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/sms");
+        //Uri alarmUri = Uri.parse("android.resource://" + "com.kumailn.prayertime/" + "raw/adhan_1");
 
         //Error catch if uri is null, set audio to default
         if (alarmUri == null)
@@ -192,17 +198,41 @@ public class RingtonePlayingService extends Service  {
         nexTimeIntent.putExtra("Prayer", prayerName);
         pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, nexTimeIntent, 0);
 
+        Intent dynamicFajrIntent = new Intent(getApplicationContext(), prayerReceiver.class);
+        dynamicFajrIntent.putExtra("Prayer", "Fajr").putExtra("Type", "Dynamic");
+        Intent dynamicDhurIntent = new Intent(getApplicationContext(), prayerReceiver.class);
+        dynamicDhurIntent.putExtra("Prayer", "Dhur").putExtra("Type", "Dynamic");
+        Intent dynamicAsrIntent = new Intent(getApplicationContext(), prayerReceiver.class);
+        dynamicAsrIntent.putExtra("Prayer", "Asr").putExtra("Type", "Dynamic");
+        Intent dynamicMaghribIntent = new Intent(getApplicationContext(), prayerReceiver.class);
+        dynamicMaghribIntent.putExtra("Prayer", "Maghrib").putExtra("Type", "Dynamic");
+        Intent dynamicIshaIntent = new Intent(getApplicationContext(), prayerReceiver.class);
+        dynamicIshaIntent.putExtra("Prayer", "Isha").putExtra("Type", "Dynamic");
+
+        //Test intent for debugging purposes
+        Intent dynamicTestIntent = new Intent(getApplicationContext(), prayerReceiver.class);
+        dynamicTestIntent.putExtra("Prayer", "Test").putExtra("Type", "Dynamic");
+        GregorianCalendar todayCalendar = new GregorianCalendar();
+
+        PendingIntent dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 111, dynamicTestIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Initialize pending intents
+        dynamicFajrPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 101, dynamicFajrIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        dynamicDhurPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 102, dynamicDhurIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        dynamicAsrPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 103, dynamicAsrIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        dynamicMaghribPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 104, dynamicMaghribIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        dynamicIshaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 105, dynamicIshaIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         if(prayerName.equals("Fajr")){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(),  dynamicFajrPendingIntent);
             }
             else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(),  dynamicFajrPendingIntent);
             }
             else{
-                alarm_manager.set(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.set(AlarmManager.RTC_WAKEUP, fajrCal2.getTimeInMillis(),  dynamicFajrPendingIntent);
             }
             saveAlarmTimeDebug("Fajr", String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
             Log.e("ServiceFajrSet:",String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
@@ -210,13 +240,13 @@ public class RingtonePlayingService extends Service  {
 
         else if(prayerName.equals("Asr")){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, asrCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, asrCal2.getTimeInMillis(),  dynamicAsrPendingIntent);
             }
             else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, asrCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, asrCal2.getTimeInMillis(),  dynamicAsrPendingIntent);
             }
             else{
-                alarm_manager.set(AlarmManager.RTC_WAKEUP, asrCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.set(AlarmManager.RTC_WAKEUP, asrCal2.getTimeInMillis(),  dynamicAsrPendingIntent);
             }
             saveAlarmTimeDebug("Asr",String.valueOf(asrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(asrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(asrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(asrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(asrCal2.get(Calendar.MINUTE)) );
             Log.e("ServiceAsrSet:",String.valueOf(asrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(asrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(asrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(asrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(asrCal2.get(Calendar.MINUTE)));
@@ -224,13 +254,13 @@ public class RingtonePlayingService extends Service  {
 
         else if (prayerName.equals("Dhur")){
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(),  dynamicDhurPendingIntent);
             }
             else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(),  dynamicDhurPendingIntent);
             }
             else{
-                alarm_manager.set(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.set(AlarmManager.RTC_WAKEUP, dhurCal2.getTimeInMillis(),  dynamicDhurPendingIntent);
             }
             saveAlarmTimeDebug("Dhur", String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
             Log.e("ServiceDhurSet:",String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
@@ -260,6 +290,12 @@ public class RingtonePlayingService extends Service  {
             }
             saveAlarmTimeDebug("Isha", String.valueOf(ishaCal2.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal2.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal2.get(Calendar.MINUTE)));
             Log.e("ServiceIshaSet:",String.valueOf(ishaCal2.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal2.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal2.get(Calendar.MINUTE)));
+        }
+        else if(prayerName.equals("Test")){
+            alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, todayCalendar.getTimeInMillis() + 60000,  dynamicTestPendingIntent);
+
+            //saveAlarmTimeDebug("Isha", String.valueOf(ishaCal2.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal2.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal2.get(Calendar.MINUTE)));
+            Log.e("ServiceTestSet:",String.valueOf(todayCalendar.get(Calendar.YEAR)) + "/" + String.valueOf(todayCalendar.get(Calendar.MONTH)+1) + "/" +String.valueOf(todayCalendar.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(todayCalendar.get(Calendar.HOUR)) + ":" + String.valueOf(todayCalendar.get(Calendar.MINUTE)));
         }
 
         if(ringtone.isPlaying()){
