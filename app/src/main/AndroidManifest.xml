@@ -28,6 +28,8 @@
             android:name=".Main2Activity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".SettingsActivity"/>
+
         <service
             android:name=".RingtonePlayingService"
             android:enabled="true" />

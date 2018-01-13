@@ -46,6 +46,13 @@ import java.util.TimeZone;
 public class Main2Activity extends AppCompatActivity {
     public static final String TAG = "com.kumailn.prayertime";
     public static final String defaultMethod = "0";
+    public static final int FAJR_REQUEST_CODE = 101;
+    public static final int DHUR_REQUEST_CODE = 102;
+    public static final int ASR_REQUEST_CODE = 103;
+    public static final int MAGHRIB_REQUEST_CODE = 104;
+    public static final int ISHA_REQUEST_CODE = 105;
+    public static final int TEST_REQUEST_CODE = 111;
+
 
     PendingIntent dynamicFajrPendingIntent;
     PendingIntent dynamicAsrPendingIntent;
@@ -157,6 +164,10 @@ public class Main2Activity extends AppCompatActivity {
                     try {dynamicFajrPendingIntent.cancel();} catch (Exception e) {e.printStackTrace();}
                     Log.e(TAG, "Switch saved as off");
                 }
+                Intent dtC = new Intent(getApplicationContext(), prayerReceiver.class);
+                dtC.putExtra("Prayer", "Fajr").putExtra("Type", "Cancel");
+                dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), FAJR_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
             }
         });
 
@@ -172,6 +183,10 @@ public class Main2Activity extends AppCompatActivity {
                     saveSwitchAlarm("DhurAlarm", "false");
                     try {dynamicDhurPendingIntent.cancel();} catch (Exception e) {e.printStackTrace();}
                     Log.e(TAG, "Switch saved as off");
+                    Intent dtC = new Intent(getApplicationContext(), prayerReceiver.class);
+                    dtC.putExtra("Prayer", "Dhur").putExtra("Type", "Cancel");
+                    dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), DHUR_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
                 }
             }
         });
@@ -188,6 +203,10 @@ public class Main2Activity extends AppCompatActivity {
                     saveSwitchAlarm("AsrAlarm", "false");
                     try {dynamicAsrPendingIntent.cancel();} catch (Exception e) {e.printStackTrace();}
                     Log.e(TAG, "Switch saved as off");
+                    Intent dtC = new Intent(getApplicationContext(), prayerReceiver.class);
+                    dtC.putExtra("Prayer", "Asr").putExtra("Type", "Cancel");
+                    dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ASR_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
                 }
             }
         });
@@ -203,6 +222,10 @@ public class Main2Activity extends AppCompatActivity {
                 else {
                     saveSwitchAlarm("MaghribAlarm", "false");
                     try {dynamicMaghribPendingIntent.cancel();} catch (Exception e) {e.printStackTrace();}
+                    Intent dtC = new Intent(getApplicationContext(), prayerReceiver.class);
+                    dtC.putExtra("Prayer", "Maghrib").putExtra("Type", "Cancel");
+                    dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), MAGHRIB_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
                     Log.e(TAG, "Switch saved as off");
                 }
             }
@@ -218,11 +241,17 @@ public class Main2Activity extends AppCompatActivity {
                 }
                 else {
                     saveSwitchAlarm("IshaAlarm", "false");
+                    Toast.makeText(getApplicationContext(), "Isha turned off", Toast.LENGTH_SHORT).show();
                     try {dynamicIshaPendingIntent.cancel();} catch (Exception e) {e.printStackTrace();}
 
 
                     //debug purposes
-                    cancelDegubPendingIntent(true, 111);
+                    //Test intent for debugging purposes
+                    Intent dtC = new Intent(getApplicationContext(), prayerReceiver.class);
+                    dtC.putExtra("Prayer", "Isha").putExtra("Type", "Cancel");
+                    dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ISHA_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
+
 
                     Log.e(TAG, "Switch saved as off");
                 }
@@ -300,27 +329,6 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
-
-        //Alarm off onClick listener
-        offButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alarm_manager.cancel(pendingIntent);
-                alarm_manager.cancel(pendingIntent2);
-                alarm_manager.cancel(pendingIntent3);
-                alarm_manager.cancel(testPendingIntent1);
-                alarm_manager.cancel(dynamicDhurPendingIntent);
-                alarm_manager.cancel(dynamicFajrPendingIntent);
-                alarm_manager.cancel(dynamicIshaPendingIntent);
-                alarm_manager.cancel(dynamicAsrPendingIntent);
-                alarm_manager.cancel(dynamicMaghribPendingIntent);
-                saveAlarm("off");
-
-                Toast.makeText(Main2Activity.this, "Adhans Off", Toast.LENGTH_SHORT).show();
-                //i2.putExtra("extra", "alarm off");
-                //sendBroadcast(i2);
-            }
-        });
 
     }
     @Override
@@ -763,11 +771,47 @@ public class Main2Activity extends AppCompatActivity {
             GregorianCalendar currentCal = ishaCal;
             GregorianCalendar currentCal2 = ishaCal2;
 
+            if(System.currentTimeMillis() < ishaCal.getTimeInMillis()){
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                   //alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, ishaCal.getTimeInMillis(), dynamicIshaPendingIntent);
 
+                    //Set in 1 min fo debug
+                    alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000, dynamicIshaPendingIntent);
+                }
+                else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                    alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ishaCal.getTimeInMillis(), dynamicIshaPendingIntent);
+                }
+                else{
+                    alarm_manager.set(AlarmManager.RTC_WAKEUP, ishaCal.getTimeInMillis(), dynamicIshaPendingIntent);
+                }
+                Log.e("IshaTodaySet:",String.valueOf(ishaCal.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal.get(Calendar.MINUTE)));
+                Toast.makeText(getApplicationContext(), "Today: " + String.valueOf(currentCal.get(Calendar.HOUR)) + ":" + String.valueOf(currentCal.get(Calendar.MINUTE)), Toast.LENGTH_SHORT).show();
+            }
+            else{
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                    Log.e("Isha logged ", "for tomorrow android M+");
+                    //alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(), dynamicIshaPendingIntent);
+
+                    //Set in 1 min fo debug
+                    alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000, dynamicIshaPendingIntent);
+
+                }
+                else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                    alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(), dynamicIshaPendingIntent);
+                }
+                else{
+                    alarm_manager.set(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(), dynamicIshaPendingIntent);
+                }
+                Log.e("IshaTomorrowSet:",String.valueOf(ishaCal2.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal2.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal2.get(Calendar.MINUTE)));
+                Toast.makeText(getApplicationContext(), "Tomorrow: " + String.valueOf(currentCal2.get(Calendar.HOUR)) + ":" + String.valueOf(currentCal2.get(Calendar.MINUTE)), Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        else if(alarmName.equals("Test")){
             GregorianCalendar todayCalendar = new GregorianCalendar();
             Log.e("The current date is ", String.valueOf(todayCalendar.get(GregorianCalendar.YEAR)) + "/" +
-            String.valueOf(todaysCalendar.get(GregorianCalendar.MONTH)) + "/" + String.valueOf(todayCalendar.get(GregorianCalendar.DAY_OF_MONTH)) +
-            " " + String.valueOf(todayCalendar.get(GregorianCalendar.HOUR)) + ":" + String.valueOf(todayCalendar.get(GregorianCalendar.MINUTE)));
+                    String.valueOf(todaysCalendar.get(GregorianCalendar.MONTH)) + "/" + String.valueOf(todayCalendar.get(GregorianCalendar.DAY_OF_MONTH)) +
+                    " " + String.valueOf(todayCalendar.get(GregorianCalendar.HOUR)) + ":" + String.valueOf(todayCalendar.get(GregorianCalendar.MINUTE)));
 
             //Test intent for debugging purposes
             Intent dynamicTestIntent = new Intent(getApplicationContext(), prayerReceiver.class);
@@ -782,36 +826,6 @@ public class Main2Activity extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(), "Set for: " + rf, Toast.LENGTH_SHORT).show();
             alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, todaysCalendar.getTimeInMillis() + 60000, dynamicTestPendingIntent);
-
-
-
-/*            if(System.currentTimeMillis() < ishaCal.getTimeInMillis()){
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, ishaCal.getTimeInMillis(), dynamicIshaPendingIntent);
-            }
-            else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ishaCal.getTimeInMillis(), dynamicIshaPendingIntent);
-            }
-            else{
-                alarm_manager.set(AlarmManager.RTC_WAKEUP, ishaCal.getTimeInMillis(), dynamicIshaPendingIntent);
-            }
-            Log.e("IshaTodaySet:",String.valueOf(ishaCal.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal.get(Calendar.MINUTE)));
-            Toast.makeText(getApplicationContext(), "Today: " + String.valueOf(currentCal.get(Calendar.HOUR)) + ":" + String.valueOf(currentCal.get(Calendar.MINUTE)), Toast.LENGTH_SHORT).show();
-        }
-        else{
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicIshaPendingIntent);
-            }
-            else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(), dynamicIshaPendingIntent);
-            }
-            else{
-                alarm_manager.set(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(), dynamicIshaPendingIntent);
-            }
-            Log.e("IshaTomorrowSet:",String.valueOf(ishaCal2.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal2.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal2.get(Calendar.MINUTE)));
-            Toast.makeText(getApplicationContext(), "Tomorrow: " + String.valueOf(currentCal2.get(Calendar.HOUR)) + ":" + String.valueOf(currentCal2.get(Calendar.MINUTE)), Toast.LENGTH_SHORT).show();
-        }*/
-
         }
 
 
@@ -820,8 +834,7 @@ public class Main2Activity extends AppCompatActivity {
     public void cancelDegubPendingIntent(Boolean b, int rq){
         if(b){
             Intent myIntent = new Intent(getApplicationContext(), Main2Activity.class);
-            PendingIntent mpendingIntent = PendingIntent.getActivity(getApplicationContext(), rq, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            mpendingIntent.cancel();
+            PendingIntent mpendingIntent = PendingIntent.getActivity(getApplicationContext(), rq, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             alarm_manager.cancel(mpendingIntent);
         }
     }

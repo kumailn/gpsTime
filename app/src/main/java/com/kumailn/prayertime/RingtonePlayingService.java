@@ -99,6 +99,7 @@ public class RingtonePlayingService extends Service  {
 
     public int onStartCommand(Intent intent, int flags, int startId){
         String prayerName = intent.getStringExtra("Prayer");
+        String prayerType = intent.getStringExtra("Type");
 
         //Initalize date format
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy/HH/mm");
@@ -200,12 +201,16 @@ public class RingtonePlayingService extends Service  {
 
         Intent dynamicFajrIntent = new Intent(getApplicationContext(), prayerReceiver.class);
         dynamicFajrIntent.putExtra("Prayer", "Fajr").putExtra("Type", "Dynamic");
+
         Intent dynamicDhurIntent = new Intent(getApplicationContext(), prayerReceiver.class);
         dynamicDhurIntent.putExtra("Prayer", "Dhur").putExtra("Type", "Dynamic");
+
         Intent dynamicAsrIntent = new Intent(getApplicationContext(), prayerReceiver.class);
         dynamicAsrIntent.putExtra("Prayer", "Asr").putExtra("Type", "Dynamic");
+
         Intent dynamicMaghribIntent = new Intent(getApplicationContext(), prayerReceiver.class);
         dynamicMaghribIntent.putExtra("Prayer", "Maghrib").putExtra("Type", "Dynamic");
+
         Intent dynamicIshaIntent = new Intent(getApplicationContext(), prayerReceiver.class);
         dynamicIshaIntent.putExtra("Prayer", "Isha").putExtra("Type", "Dynamic");
 
@@ -236,6 +241,10 @@ public class RingtonePlayingService extends Service  {
             }
             saveAlarmTimeDebug("Fajr", String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
             Log.e("ServiceFajrSet:",String.valueOf(fajrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(fajrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(fajrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(fajrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(fajrCal2.get(Calendar.MINUTE)));
+
+            if(prayerType.equals("Cancel")){
+                alarm_manager.cancel(dynamicFajrPendingIntent);
+            }
         }
 
         else if(prayerName.equals("Asr")){
@@ -250,6 +259,10 @@ public class RingtonePlayingService extends Service  {
             }
             saveAlarmTimeDebug("Asr",String.valueOf(asrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(asrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(asrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(asrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(asrCal2.get(Calendar.MINUTE)) );
             Log.e("ServiceAsrSet:",String.valueOf(asrCal2.get(Calendar.YEAR)) + "/" + String.valueOf(asrCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(asrCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(asrCal2.get(Calendar.HOUR)) + ":" + String.valueOf(asrCal2.get(Calendar.MINUTE)));
+
+            if(prayerType.equals("Cancel")){
+                alarm_manager.cancel(dynamicAsrPendingIntent);
+            }
         }
 
         else if (prayerName.equals("Dhur")){
@@ -264,41 +277,62 @@ public class RingtonePlayingService extends Service  {
             }
             saveAlarmTimeDebug("Dhur", String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
             Log.e("ServiceDhurSet:",String.valueOf(dhurCal2.get(Calendar.YEAR)) + "/" + String.valueOf(dhurCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(dhurCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(dhurCal2.get(Calendar.HOUR)) + ":" + String.valueOf(dhurCal2.get(Calendar.MINUTE)));
+
+            if(prayerType.equals("Cancel")){
+                alarm_manager.cancel(dynamicDhurPendingIntent);
+            }
         }
+
         else if(prayerName.equals("Maghrib")){
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(),  dynamicMaghribPendingIntent);
             }
             else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(),  dynamicMaghribPendingIntent);
             }
             else{
-                alarm_manager.set(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.set(AlarmManager.RTC_WAKEUP, maghribCal2.getTimeInMillis(),  dynamicMaghribPendingIntent);
             }
             saveAlarmTimeDebug("Maghrib", String.valueOf(maghribCal2.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal2.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal2.get(Calendar.MINUTE)));
             Log.e("ServiceDhurSet:",String.valueOf(maghribCal2.get(Calendar.YEAR)) + "/" + String.valueOf(maghribCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(maghribCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(maghribCal2.get(Calendar.HOUR)) + ":" + String.valueOf(maghribCal2.get(Calendar.MINUTE)));
+
+            if(prayerType.equals("Cancel")){
+                alarm_manager.cancel(dynamicMaghribPendingIntent);
+            }
         }
         else if(prayerName.equals("Isha")){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(),  pendingIntent);
+                //alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(),  dynamicIshaPendingIntent);
+
+                alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000,  dynamicIshaPendingIntent);
+
             }
             else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(),  dynamicIshaPendingIntent);
             }
             else{
-                alarm_manager.set(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(),  pendingIntent);
+                alarm_manager.set(AlarmManager.RTC_WAKEUP, ishaCal2.getTimeInMillis(),  dynamicIshaPendingIntent);
             }
             saveAlarmTimeDebug("Isha", String.valueOf(ishaCal2.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal2.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal2.get(Calendar.MINUTE)));
             Log.e("ServiceIshaSet:",String.valueOf(ishaCal2.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal2.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal2.get(Calendar.MINUTE)));
+
+            if(prayerType.equals("Cancel")){
+                alarm_manager.cancel(dynamicIshaPendingIntent);
+            }
+
         }
         else if(prayerName.equals("Test")){
             alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, todayCalendar.getTimeInMillis() + 60000,  dynamicTestPendingIntent);
+
+            if(prayerType.equals("Cancel")){
+                alarm_manager.cancel(dynamicTestPendingIntent);
+            }
 
             //saveAlarmTimeDebug("Isha", String.valueOf(ishaCal2.get(Calendar.YEAR)) + "/" + String.valueOf(ishaCal2.get(Calendar.MONTH)+1) + "/" +String.valueOf(ishaCal2.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(ishaCal2.get(Calendar.HOUR)) + ":" + String.valueOf(ishaCal2.get(Calendar.MINUTE)));
             Log.e("ServiceTestSet:",String.valueOf(todayCalendar.get(Calendar.YEAR)) + "/" + String.valueOf(todayCalendar.get(Calendar.MONTH)+1) + "/" +String.valueOf(todayCalendar.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(todayCalendar.get(Calendar.HOUR)) + ":" + String.valueOf(todayCalendar.get(Calendar.MINUTE)));
         }
 
-        if(ringtone.isPlaying()){
+        if(ringtone.isPlaying() || prayerType.equals("Cancel")){
             ringtone.stop();
         }
         else {

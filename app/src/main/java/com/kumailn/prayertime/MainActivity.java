@@ -435,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         //Configures menu (toolbar) button options
         if(item.getItemId() == R.id.action_settings){
             //Toast.makeText(Main2Activity.this, "sucess", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(this, Main2Activity.class);
+            Intent i = new Intent(this, SettingsActivity.class);
             startActivity(i);
         }
         if(item.getItemId() == R.id.action_about){

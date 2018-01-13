@@ -21,6 +21,7 @@ public class prayerReceiver extends BroadcastReceiver {
         //Intent to start service
         Intent service_intent = new Intent(context, RingtonePlayingService.class);
         service_intent.putExtra("Prayer", prayerName);
+        service_intent.putExtra("Type", intent.getStringExtra("Type"));
 
         Log.e("PrayerReciever: ", "now launching service");
         context.startService(service_intent);
