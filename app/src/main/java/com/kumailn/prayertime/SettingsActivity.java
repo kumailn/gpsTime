@@ -3,9 +3,8 @@ package com.kumailn.prayertime;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +29,7 @@ import android.widget.Toast;
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = SettingsActivity.class.getSimpleName();
     final static String versionNumber = BuildConfig.VERSION_NAME;
+    static SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +38,12 @@ public class SettingsActivity extends AppCompatActivity {
         //((AppCompatActivity)getApplicationContext()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         // load settings fragment
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MainPreferenceFragment()).commit();
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Log.e(String.valueOf(preferences.getBoolean("key_asr_switch", false)), "h");
+
     }
 
 
@@ -56,6 +59,8 @@ public class SettingsActivity extends AppCompatActivity {
             // notification preference change listener
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_notifications_new_message_ringtone)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_calculation_method)));
+
+
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.key)));
 
             // feedback preference click listener
@@ -69,6 +74,17 @@ public class SettingsActivity extends AppCompatActivity {
 
             Preference mp = findPreference("key_version");
             mp.setSummary(String.valueOf(versionNumber));
+
+            SharedPreferences.OnSharedPreferenceChangeListener spChanged = new
+                                       SharedPreferences.OnSharedPreferenceChangeListener() {
+                        @Override
+                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                    Log.e("It worked! ", key);
+                }
+            };
+
+            preferences.registerOnSharedPreferenceChangeListener(spChanged);
+
         }
     }
 
@@ -79,6 +95,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
+
+
+
 
     private static void bindPreferenceSummaryToValue(Preference preference) {
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
@@ -93,6 +117,8 @@ public class SettingsActivity extends AppCompatActivity {
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
      */
+
+
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {

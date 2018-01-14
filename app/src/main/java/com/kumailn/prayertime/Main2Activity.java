@@ -541,7 +541,6 @@ public class Main2Activity extends AppCompatActivity {
     }
 
     public void onAlarmSwitchClick(String alarmName){
-
         //Initialize dynamic alarm intents
 
         Intent dynamicFajrIntent = new Intent(getApplicationContext(), prayerReceiver.class);
