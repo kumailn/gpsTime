@@ -8,6 +8,26 @@
         <item>Android Green</item>
     </string-array>
 
+    <string-array name="pref_calculation_methods">
+        <item>Shia Ithna-Ashari</item>
+        <item>University of Islamic Sciences, Karachi</item>
+        <item>Islamic Society of North America</item>
+        <item>Muslim World League (MWL)</item>
+        <item>Umm al-Qura, Makkah</item>
+        <item>Egyptian Authority of Survey</item>
+        <item>University of Tehran</item>
+    </string-array>
+
+    <string-array name="pref_calculation_method_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
     <string-array name="pref_upload_quality_values">
         <item>0</item>
         <item>1</item>

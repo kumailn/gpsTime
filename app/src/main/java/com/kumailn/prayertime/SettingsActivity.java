@@ -34,9 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-/*
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-*/
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
         //((AppCompatActivity)getApplicationContext()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -57,8 +55,8 @@ public class SettingsActivity extends AppCompatActivity {
 
             // notification preference change listener
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_notifications_new_message_ringtone)));
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_theme_setting)));
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_vibration_intensity_setting)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_calculation_method)));
+            //bindPreferenceSummaryToValue(findPreference(getString(R.string.key)));
 
             // feedback preference click listener
             Preference myPref = findPreference(getString(R.string.key_send_feedback));
@@ -138,7 +136,7 @@ public class SettingsActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("message/rfc822");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"kumailmn@gmail.com"});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "NuCalculator Inquiry");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "PrayerTime Inquiry");
         intent.putExtra(Intent.EXTRA_TEXT, body);
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
     }

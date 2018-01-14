@@ -119,6 +119,15 @@
 
     <string name="key_vibration_intensity_setting">key_vibration_intensity_setting</string>
     <string name="key_vibration_switch">key_vibration_switch</string>
+
+    <string name="key_calculation_method">key_calculation_method</string>
+    <string name="key_alarm_sound_switch">key_alarm_sound_switch</string>
+    <string name="key_fajr_switch">key_fajr_switch</string>
+    <string name="key_asr_switch">key_asr_switch</string>
+    <string name="key_dhur_switch">key_dhur_switch</string>
+    <string name="key_maghrib_switch">key_maghrib_switch</string>
+    <string name="key_isha_switch">key_isha_switch</string>
+
     <string name="key_theme_setting">key_theme_setting</string>
 
 
