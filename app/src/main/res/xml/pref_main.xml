@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="General">
+<!--
+        Left this in for future reference
+        <EditTextPreference
+            android:defaultValue="@string/default_gallery_storage"
+            android:key="@string/key_gallery_name"
+            android:summary="@string/default_gallery_storage"
+            android:title="@string/title_gallery_storage" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/key_upload_over_wifi"
+            android:summary="@string/summary_upload_over_wifi"
+            android:title="@string/title_auto_upload" />-->
+
+        <ListPreference
+            android:defaultValue="0"
+            android:dialogTitle="Calculation Method"
+            android:entries="@array/pref_calculation_methods"
+            android:entryValues="@array/pref_upload_quality_values"
+            android:key="@string/key_calculation_method"
+            android:summary="Change how NuCalculator looks and feels"
+            android:title="Calculation Method" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_alarm_sound_switch"
+            android:summary="Turn adhan sound on or off"
+            android:title="Adhan Sound" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Adhans">
+
+    <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_fajr_switch"
+            android:summary="Fajr Alarm"
+            android:title="Fajr" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_asr_switch"
+            android:summary="Asr Alarm"
+            android:title="Asr" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_dhur_switch"
+            android:summary="Dhur Alarm"
+            android:title="Dhur" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_maghrib_switch"
+            android:summary="Maghrib Alarm"
+            android:title="Maghrib" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_isha_switch"
+            android:summary="Isha Alarm"
+            android:title="Isha" />
+
+<!--        <RingtonePreference
+            android:defaultValue="content://settings/system/notification_sound"
+            android:dependency="notifications_new_message"
+            android:key="@string/key_notifications_new_message_ringtone"
+            android:ringtoneType="notification"
+            android:summary="@string/summary_choose_ringtone"
+            android:title="Vibration " />-->
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_about">
+        <Preference
+            android:title="Version"
+            android:selectable="false"
+            android:summary="@string/summary_about"
+            android:key="key_version"
+            />
+
+<!--
+        <Preference
+            android:summary="@string/app_version"
+            android:title="@string/title_version" />
+-->
+
+        <Preference
+            android:key="@string/key_send_feedback"
+            android:summary="@string/summary_support"
+            android:title="@string/title_send_feedback" />
+
+<!--        <Preference android:title="@string/title_terms">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/url_terms" />
+        </Preference>-->
+    </PreferenceCategory>
+</PreferenceScreen>
