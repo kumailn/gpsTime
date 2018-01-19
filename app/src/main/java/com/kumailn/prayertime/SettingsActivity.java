@@ -60,7 +60,6 @@ public class SettingsActivity extends AppCompatActivity {
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_notifications_new_message_ringtone)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_calculation_method)));
 
-
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.key)));
 
             // feedback preference click listener
@@ -79,7 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
                                        SharedPreferences.OnSharedPreferenceChangeListener() {
                         @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                    Log.e("It worked! ", key);
+                    Log.e("It worked!", key);
                 }
             };
 
