@@ -1,5 +1,4 @@
 package com.kumailn.prayertime;
-
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -37,10 +36,8 @@ public class SettingsActivity extends AppCompatActivity {
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         //((AppCompatActivity)getApplicationContext()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
-
         // load settings fragment
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MainPreferenceFragment()).commit();
-
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         Log.e(String.valueOf(preferences.getBoolean("key_asr_switch", false)), "h");
 
