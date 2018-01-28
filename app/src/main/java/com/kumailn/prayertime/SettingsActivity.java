@@ -43,8 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-
-    public static class MainPreferenceFragment extends PreferenceFragment {
+    public class MainPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -75,7 +74,8 @@ public class SettingsActivity extends AppCompatActivity {
                                        SharedPreferences.OnSharedPreferenceChangeListener() {
                         @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                    Log.e("It worked!", key);
+                    Log.e("It worked!", key + String.valueOf(sharedPreferences.getBoolean(key, false)));
+
                 }
             };
 
@@ -93,13 +93,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
-
     private static void bindPreferenceSummaryToValue(Preference preference) {
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
@@ -113,7 +106,6 @@ public class SettingsActivity extends AppCompatActivity {
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
      */
-
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
@@ -138,8 +130,6 @@ public class SettingsActivity extends AppCompatActivity {
             return true;
         }
     };
-
-
 
     /**
      * Email client intent to send support mail
