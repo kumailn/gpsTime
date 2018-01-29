@@ -627,9 +627,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     public void saveDaylight(boolean meth){
         //Local data storage
-        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("com.kumailn.prayertime_preferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("daylight", Boolean.toString(meth));
+        editor.putString(getString(R.string.key_daylight_savings_switch), Boolean.toString(meth));
         editor.commit();
     }
 
@@ -648,8 +648,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     public String loadDaylight(){
-        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
-        String myMethod = sharedPreferences.getString("daylight", defaultMethod);
+        SharedPreferences sharedPreferences = getSharedPreferences("com.kumailn.prayertimes_preferences", Context.MODE_PRIVATE);
+        String myMethod = sharedPreferences.getString(getString(R.string.key_daylight_savings_switch), defaultMethod);
         return (myMethod);
     }
 

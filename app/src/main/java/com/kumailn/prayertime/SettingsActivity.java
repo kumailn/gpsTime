@@ -214,6 +214,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void onAlarmSwitchClick(String alarmName){
         //Initialize dynamic alarm intents
+        SharedPreferences sp = getSharedPreferences("com.kumailn.prayertime_preferences", MODE_PRIVATE);
 
         Intent dynamicFajrIntent = new Intent(getApplicationContext(), prayerReceiver.class);
         dynamicFajrIntent.putExtra("Prayer", "Fajr").putExtra("Type", "Dynamic");
@@ -257,7 +258,7 @@ public class SettingsActivity extends AppCompatActivity {
         double longitude = Double.parseDouble(loadLon());
 
         //Load daylight-savings
-        Boolean myB = Boolean.valueOf(loadDaylight());
+        Boolean myB = Boolean.valueOf(sp.getBoolean(getString(R.string.key_daylight_savings_switch), false));
         double timezone = offset;
 
         //Adjust timezone based on daylight savings
@@ -500,5 +501,26 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    //Loads longitude from sharedPrefrences
+    public String loadLon(){
+        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        String myMethod = sharedPreferences.getString("lonTwo", defaultMethod);
+        return (myMethod);
+    }
+
+    //load latitude from sharedPrefrences
+    public String loadLat(){
+        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
+        String myMethod = sharedPreferences.getString("latTwo", defaultMethod);
+        return (myMethod);
+    }
+
+    public int loadDat(){
+        //loads saved settings data
+        SharedPreferences sharedPreferences = getSharedPreferences("com.kumailn.prayertimes_preferences", Context.MODE_PRIVATE);
+        int myMethod = sharedPreferences.getInt(getString(R.string.key_calculation_method), 0);
+        return (myMethod);
     }
 }
