@@ -340,9 +340,9 @@ public class RingtonePlayingService extends Service  {
             Log.e("ringtoneService: ", "In Ringtone Service");
 
             SharedPreferences sharedPreferences = getSharedPreferences("myData", MODE_PRIVATE);
-
+            SharedPreferences sp = getSharedPreferences("com.kumailn.prayertime_preferences", MODE_PRIVATE);
             //Play ringtone only if the soundOn switch is checked
-            if(sharedPreferences.getBoolean("soundOn", false)){
+            if(sp.getBoolean(getString(R.string.key_alarm_sound_switch), false)){
                 ringtone.play();
             }
 
