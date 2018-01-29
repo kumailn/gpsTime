@@ -122,6 +122,7 @@
 
     <string name="key_calculation_method">key_calculation_method</string>
     <string name="key_alarm_sound_switch">key_alarm_sound_switch</string>
+    <string name="key_daylight_savings_switch">key_daylight_savings_switch</string>
     <string name="key_fajr_switch">key_fajr_switch</string>
     <string name="key_asr_switch">key_asr_switch</string>
     <string name="key_dhur_switch">key_dhur_switch</string>

@@ -30,6 +30,12 @@
             android:summary="Turn adhan sound on or off"
             android:title="Adhan Sound" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_daylight_savings_switch"
+            android:summary="Toggle daylight savings"
+            android:title="Daylisht Savings" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Adhans">
