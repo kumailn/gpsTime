@@ -19,9 +19,9 @@
             android:defaultValue="0"
             android:dialogTitle="Calculation Method"
             android:entries="@array/pref_calculation_methods"
-            android:entryValues="@array/pref_upload_quality_values"
+            android:entryValues="@array/pref_calculation_method_values"
             android:key="@string/key_calculation_method"
-            android:summary="Change how NuCalculator looks and feels"
+            android:summary="Change prayerTimes method of calculation"
             android:title="Calculation Method" />
 
         <SwitchPreference

@@ -433,9 +433,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     public int loadDat(){
         //loads saved settings data
-        SharedPreferences sharedPreferences = getSharedPreferences("myData", Context.MODE_PRIVATE);
-        String myMethod = sharedPreferences.getString("method", defaultMethod);
-        return Integer.parseInt(myMethod);
+        SharedPreferences sharedPreferences = getSharedPreferences("com.kumailn.prayertimes_preferences", Context.MODE_PRIVATE);
+        int myMethod = sharedPreferences.getInt(getString(R.string.key_calculation_method), 0);
+        Log.e("Calc method: ", String.valueOf(myMethod));
+        return (myMethod);
     }
 
     @Override

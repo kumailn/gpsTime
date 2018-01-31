@@ -85,6 +85,8 @@ public class SettingsActivity extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         Log.e(String.valueOf(preferences.getBoolean("key_asr_switch", false)), "h");
 
+        //Alarm manager object initialization
+        alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
     }
 
     public class MainPreferenceFragment extends PreferenceFragment {
@@ -118,7 +120,9 @@ public class SettingsActivity extends AppCompatActivity {
                                        SharedPreferences.OnSharedPreferenceChangeListener() {
                         @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                            Log.e("It worked!", key + String.valueOf(sharedPreferences.getBoolean(key, false)));
+                            try{
+                                Log.e("It worked!", key + String.valueOf(sharedPreferences.getBoolean(key, false)));
+                            }catch (Exception e){}
                             if(key.equals(getString(R.string.key_fajr_switch))){
                                 if(sharedPreferences.getBoolean(key, false)){
                                     onAlarmSwitchClick("Fajr");
@@ -132,6 +136,21 @@ public class SettingsActivity extends AppCompatActivity {
                                 //dtC.putExtra("Prayer", "Fajr").putExtra("Type", "Cancel");
                                 //dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), FAJR_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
                                 //alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
+                            }
+
+                            else if(key.equals(getString(R.string.key_dhur_switch))){
+                                if(sharedPreferences.getBoolean(key, false)){
+                                    onAlarmSwitchClick("Dhur");
+                                    Log.e(TAG, "dhur Switch saved as on");
+                                }
+                                else {
+                                    try {dynamicDhurPendingIntent.cancel();} catch (Exception e) {e.printStackTrace();}
+                                    Log.e(TAG, "Switch saved as off");
+                                    Intent dtC = new Intent(getApplicationContext(), prayerReceiver.class);
+                                    dtC.putExtra("Prayer", "Dhur").putExtra("Type", "Cancel");
+                                    dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), DHUR_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
+                                    alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
+                                }
                             }
 
 
