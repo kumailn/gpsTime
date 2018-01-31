@@ -152,6 +152,54 @@ public class SettingsActivity extends AppCompatActivity {
                                     alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
                                 }
                             }
+                            else if(key.equals(getString(R.string.key_asr_switch))){
+                                if(sharedPreferences.getBoolean(key, false)){
+                                    onAlarmSwitchClick("Asr");
+                                    Log.e(TAG, "asr Switch saved as on");
+                                }
+                                else {
+                                    try {dynamicAsrPendingIntent.cancel();} catch (Exception e) {e.printStackTrace();}
+                                    Log.e(TAG, "Switch saved as off");
+                                    Intent dtC = new Intent(getApplicationContext(), prayerReceiver.class);
+                                    dtC.putExtra("Prayer", "Asr").putExtra("Type", "Cancel");
+                                    dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ASR_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
+                                    alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
+                                }
+                            }
+
+                            else if(key.equals(getString(R.string.key_maghrib_switch))){
+                                if(sharedPreferences.getBoolean(key, false)){
+                                    onAlarmSwitchClick("Maghrib");
+                                    Log.e(TAG, "maghrib Switch saved as on");
+                                }
+                                else {
+                                    try {dynamicMaghribPendingIntent.cancel();} catch (Exception e) {e.printStackTrace();}
+                                    Intent dtC = new Intent(getApplicationContext(), prayerReceiver.class);
+                                    dtC.putExtra("Prayer", "Maghrib").putExtra("Type", "Cancel");
+                                    dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), MAGHRIB_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
+                                    alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
+                                    Log.e(TAG, "Switch saved as off");
+                                }
+                            }
+
+                            else if(key.equals(getString(R.string.key_isha_switch))){
+                                if(sharedPreferences.getBoolean(key, false)){
+                                    onAlarmSwitchClick("Isha");
+                                    Log.e(TAG, "isha Switch saved as true");
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Isha turned off", Toast.LENGTH_SHORT).show();
+                                    try {dynamicIshaPendingIntent.cancel();} catch (Exception e) {e.printStackTrace();}
+                                    //debug purposes
+                                    //Test intent for debugging purposes
+                                    //Intent dtC = new Intent(getApplicationContext(), prayerReceiver.class);
+                                    //dtC.putExtra("Prayer", "Isha").putExtra("Type", "Cancel");
+                                    //dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ISHA_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
+                                    //alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
+
+                                    Log.e(TAG, "Isha saved as off");
+                                }
+                            }
 
 
                 }
