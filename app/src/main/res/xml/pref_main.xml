@@ -48,15 +48,15 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="@string/key_asr_switch"
-            android:summary="Asr Alarm"
-            android:title="Asr" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="@string/key_dhur_switch"
             android:summary="Dhur Alarm"
             android:title="Dhur" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_asr_switch"
+            android:summary="Asr Alarm"
+            android:title="Asr" />
 
         <SwitchPreference
             android:defaultValue="false"

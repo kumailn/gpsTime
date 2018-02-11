@@ -553,7 +553,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             e.printStackTrace();
                         }
                     }
-
                 },
                 new Response.ErrorListener() {
                     @Override

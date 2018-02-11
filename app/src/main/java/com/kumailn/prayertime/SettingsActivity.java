@@ -196,12 +196,9 @@ public class SettingsActivity extends AppCompatActivity {
                                     //dtC.putExtra("Prayer", "Isha").putExtra("Type", "Cancel");
                                     //dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ISHA_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
                                     //alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
-
                                     Log.e(TAG, "Isha saved as off");
                                 }
                             }
-
-
                 }
             };
 
@@ -566,8 +563,6 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Set for: " + rf, Toast.LENGTH_SHORT).show();
             alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, todaysCalendar.getTimeInMillis() + 60000, dynamicTestPendingIntent);
         }
-
-
     }
 
     //Loads longitude from sharedPrefrences
