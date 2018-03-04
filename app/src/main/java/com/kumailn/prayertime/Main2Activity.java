@@ -53,7 +53,6 @@ public class Main2Activity extends AppCompatActivity {
     public static final int ISHA_REQUEST_CODE = 105;
     public static final int TEST_REQUEST_CODE = 111;
 
-
     PendingIntent dynamicFajrPendingIntent;
     PendingIntent dynamicAsrPendingIntent;
     PendingIntent dynamicDhurPendingIntent;

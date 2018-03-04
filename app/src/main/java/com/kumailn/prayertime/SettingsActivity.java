@@ -1,4 +1,5 @@
 package com.kumailn.prayertime;
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -47,8 +48,6 @@ public class SettingsActivity extends AppCompatActivity {
     public static final int MAGHRIB_REQUEST_CODE = 104;
     public static final int ISHA_REQUEST_CODE = 105;
     public static final int TEST_REQUEST_CODE = 111;
-
-
     PendingIntent dynamicFajrPendingIntent;
     PendingIntent dynamicAsrPendingIntent;
     PendingIntent dynamicDhurPendingIntent;
@@ -89,6 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
         alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
     }
 
+    @SuppressLint("ValidFragment")
     public class MainPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
@@ -105,6 +105,7 @@ public class SettingsActivity extends AppCompatActivity {
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.key)));
 
             // feedback preference click listener
+/*
             Preference myPref = findPreference(getString(R.string.key_send_feedback));
             myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
@@ -112,6 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+*/
 
             Preference mp = findPreference("key_version");
             mp.setSummary(String.valueOf(versionNumber));
@@ -218,7 +220,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static void bindPreferenceSummaryToValue(Preference preference) {
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
-
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())

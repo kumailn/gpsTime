@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     //Build version
     final String versionName = BuildConfig.VERSION_NAME;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
