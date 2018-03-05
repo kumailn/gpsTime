@@ -1,6 +1,7 @@
 package com.kumailn.prayertime;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -70,6 +71,8 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch ishaSwitch;
     private Switch soundOnSwitch;
 
+    private SharedPreferences.OnSharedPreferenceChangeListener spChanged;
+
     //Build version number
     final String versionName = BuildConfig.VERSION_NAME;
 
@@ -80,6 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
         //((AppCompatActivity)getApplicationContext()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         // load settings fragment
+
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MainPreferenceFragment()).commit();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         Log.e(String.valueOf(preferences.getBoolean("key_asr_switch", false)), "h");
@@ -118,7 +122,7 @@ public class SettingsActivity extends AppCompatActivity {
             Preference mp = findPreference("key_version");
             mp.setSummary(String.valueOf(versionNumber));
 
-            SharedPreferences.OnSharedPreferenceChangeListener spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                             try{
