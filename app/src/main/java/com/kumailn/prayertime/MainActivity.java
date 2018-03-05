@@ -293,21 +293,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 Boolean myB = Boolean.valueOf(loadDaylight());
                 double timezone = offset;
 
-                //Toast.makeText(MainActivity.this, getLocationJSON(latitude, longitude), Toast.LENGTH_LONG).show();
-                Log.e("NETWORK", String.valueOf(checkInternetAccess()));
-
-
-
-                if(myB == null){
-                    timezone = offset;
-                }
-                else if(myB == false){
-                    timezone = offset;
-                }
-                else{
-                    timezone = timezone + 1;
-                }
-
+                if(myB == null) timezone = offset;
+                else if(!myB)timezone = offset;
+                else timezone = timezone + 1;
 
                 PrayTime prayers = new PrayTime();
 
@@ -323,8 +311,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(now);
 
-                ArrayList<String> prayerTimes = prayers.getPrayerTimes(cal,
-                        latitude, longitude, timezone);
+                ArrayList<String> prayerTimes = prayers.getPrayerTimes(cal, latitude, longitude, timezone);
                 ArrayList<String> prayerNames = prayers.getTimeNames();
 
                 fajrV.setText("Fajr:");
@@ -421,7 +408,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
 
-    }//OnCreate ENDS
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -665,111 +652,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onDestroy();
     }
 
-    public class jsonTask extends AsyncTask<String, String, String> {
-
-
-
-        @Override
-        protected String doInBackground(String... params) {
-
-
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-
-
-            try {
-
-                URL myURL = new URL(params[0]);
-                connection = (HttpURLConnection)myURL.openConnection();
-                connection.connect();
-
-                InputStream stream = connection.getInputStream();
-
-                reader = new BufferedReader(new InputStreamReader(stream));
-                StringBuffer buffer = new StringBuffer();
-                String line = "";
-
-                while ((line = reader.readLine()) != null){
-                    buffer.append(line);
-                }
-
-                String finalJSON = buffer.toString();
-
-                JSONObject parentOb = new JSONObject(finalJSON);
-                //JSONObject finalOb = parentOb.getJSONObject("code");
-
-                //String fajr = parentOb.getString("status");
-                //String aaa = (parentOb.getJSONArray("code")).toString();
-
-
-                fajrTime = parentOb.getJSONObject("data").getJSONObject("timings").getString("Fajr");
-                sunriseTime = parentOb.getJSONObject("data").getJSONObject("timings").getString("Sunrise");
-                dhurTime = parentOb.getJSONObject("data").getJSONObject("timings").getString("Dhuhr");
-                asrTime = parentOb.getJSONObject("data").getJSONObject("timings").getString("Asr");
-                sunsetTime = parentOb.getJSONObject("data").getJSONObject("timings").getString("Sunset");
-                maghribTime = parentOb.getJSONObject("data").getJSONObject("timings").getString("Maghrib");
-                ishaTime = parentOb.getJSONObject("data").getJSONObject("timings").getString("Isha");
-                todaysDate = parentOb.getJSONObject("data").getJSONObject("date").getString("readable");
-                unixTime = parentOb.getJSONObject("data").getJSONObject("date").getString("timestamp");
-
-
-                fajrTime = timeConverter(fajrTime);
-                dhurTime = timeConverter(dhurTime);
-                asrTime = timeConverter(asrTime);
-                maghribTime = timeConverter(maghribTime);
-                ishaTime = timeConverter(ishaTime);
-
-
-                //return buffer.toString();
-                //CharSequence cc = aaa;
-                //Toast.makeText(MainActivity.this,aaa, Toast.LENGTH_LONG);
-                return "";
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                if(connection != null){
-                    connection.disconnect();
-                }
-                if(reader != null){
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                try {
-                    if(reader != null){
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            //jText.setText(result);
-            fajrV.setText("        Fajr:             " + fajrTime );
-            dhurV.setText("        Dhur:            " + dhurTime);
-            asrV.setText("        Asr:              " + asrTime);
-            maghribV.setText("        Maghrib:      " + maghribTime);
-            ishaV.setText("        Isha:           " + ishaTime);
-            dayV.setText(todaysDate);
-            //sunV.setText("Sun rise/set: " + sunriseTime + "/" + sunsetTime);
-            ttv.setText(TimeZone.getDefault().getID());
-
-
-        }
-    }
     private String ttt1;
     private String ttt2;
+
     private String timeConverter(String ss){
         ttt1 = ss.split(":")[0];
         ttt2 = ss.split(":")[1];
@@ -783,6 +668,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
     }
+
     @Override
     protected void onStart(){
         super.onStart();
@@ -814,16 +700,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         catch (Exception e){
 
         }
-
-
-    }
-
-
-    private boolean checkInternetAccess() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
     }
 
     public void aboutDialog(){

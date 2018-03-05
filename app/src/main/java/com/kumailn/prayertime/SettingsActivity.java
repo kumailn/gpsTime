@@ -118,13 +118,12 @@ public class SettingsActivity extends AppCompatActivity {
             Preference mp = findPreference("key_version");
             mp.setSummary(String.valueOf(versionNumber));
 
-            SharedPreferences.OnSharedPreferenceChangeListener spChanged = new
-                                       SharedPreferences.OnSharedPreferenceChangeListener() {
-                        @Override
+            SharedPreferences.OnSharedPreferenceChangeListener spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
+                @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                             try{
                                 Log.e("It worked!", key + String.valueOf(sharedPreferences.getBoolean(key, false)));
-                            }catch (Exception e){}
+                                }catch (Exception e){Log.e("SettingsActivity err", e.toString());}
                             if(key.equals(getString(R.string.key_fajr_switch))){
                                 if(sharedPreferences.getBoolean(key, false)){
                                     onAlarmSwitchClick("Fajr");
@@ -254,6 +253,9 @@ public class SettingsActivity extends AppCompatActivity {
             return true;
         }
     };
+
+
+
 
     /**
      * Email client intent to send support mail
