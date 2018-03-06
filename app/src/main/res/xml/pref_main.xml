@@ -35,7 +35,6 @@
             android:key="@string/key_daylight_savings_switch"
             android:summary="Toggle daylight savings"
             android:title="Daylisht Savings" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Adhans">
@@ -77,6 +76,21 @@
             android:ringtoneType="notification"
             android:summary="@string/summary_choose_ringtone"
             android:title="Vibration " />-->
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Location Settings">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_location_adhan"
+            android:summary="Only play the adhan in your house"
+            android:title="Location aware Adhan" />
+
+            <Preference
+                android:title="Set Home Location"
+                android:selectable="true"
+                android:summary="Set your home location"
+                android:key="@string/key_home_location"
+                />
 
     </PreferenceCategory>
 

@@ -128,9 +128,9 @@
     <string name="key_dhur_switch">key_dhur_switch</string>
     <string name="key_maghrib_switch">key_maghrib_switch</string>
     <string name="key_isha_switch">key_isha_switch</string>
-
+    <string name="key_location_adhan">key_location_adhan</string>
     <string name="key_theme_setting">key_theme_setting</string>
-
+    <string name="key_home_location">key_home_location</string>
 
 
 </resources>
