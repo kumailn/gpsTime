@@ -296,6 +296,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 Boolean myB = Boolean.valueOf(loadDaylight());
                 double timezone = offset;
+                Log.e("Daylight savings:::", String.valueOf(myB));
 
                 if(myB == null) timezone = offset;
                 else if(!myB)timezone = offset;
@@ -637,10 +638,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         return myMethod;
     }
 
-    public String loadDaylight(){
-        SharedPreferences sharedPreferences = getSharedPreferences("com.kumailn.prayertimes_preferences", Context.MODE_PRIVATE);
-        String myMethod = sharedPreferences.getString(getString(R.string.key_daylight_savings_switch), defaultMethod);
-        return (myMethod);
+    public boolean loadDaylight(){
+        SharedPreferences sharedPreferences = getSharedPreferences("com.kumailn.prayertime_preferences", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("key_daylight_savings_switch", false);
     }
 
     @Override
