@@ -1,27 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="General">
-<!--
-        Left this in for future reference
-        <EditTextPreference
-            android:defaultValue="@string/default_gallery_storage"
-            android:key="@string/key_gallery_name"
-            android:summary="@string/default_gallery_storage"
-            android:title="@string/title_gallery_storage" />
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="@string/key_upload_over_wifi"
-            android:summary="@string/summary_upload_over_wifi"
-            android:title="@string/title_auto_upload" />-->
-
         <ListPreference
             android:defaultValue="0"
             android:dialogTitle="Calculation Method"
             android:entries="@array/pref_calculation_methods"
             android:entryValues="@array/pref_calculation_method_values"
             android:key="@string/key_calculation_method"
-            android:summary="Change prayerTimes method of calculation"
             android:title="Calculation Method" />
 
         <SwitchPreference
@@ -31,7 +16,6 @@
             android:title="Adhan Sound" />
 
         <SwitchPreference
-            android:defaultValue="false"
             android:key="@string/key_daylight_savings_switch"
             android:summary="Toggle daylight savings"
             android:title="Daylisht Savings" />
@@ -39,7 +23,7 @@
 
     <PreferenceCategory android:title="Adhans">
 
-    <SwitchPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="@string/key_fajr_switch"
             android:summary="Fajr Alarm"
@@ -68,14 +52,6 @@
             android:key="@string/key_isha_switch"
             android:summary="Isha Alarm"
             android:title="Isha" />
-
-<!--        <RingtonePreference
-            android:defaultValue="content://settings/system/notification_sound"
-            android:dependency="notifications_new_message"
-            android:key="@string/key_notifications_new_message_ringtone"
-            android:ringtoneType="notification"
-            android:summary="@string/summary_choose_ringtone"
-            android:title="Vibration " />-->
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Location Settings">
@@ -85,12 +61,12 @@
             android:summary="Only play the adhan in your house"
             android:title="Location aware Adhan" />
 
-            <Preference
-                android:title="Set Home Location"
-                android:selectable="true"
-                android:summary="Set your home location"
-                android:key="@string/key_home_location"
-                />
+        <Preference
+            android:title="Set Home Location"
+            android:selectable="true"
+            android:summary="Set your home location"
+            android:key="@string/key_home_location"
+            />
 
     </PreferenceCategory>
 
@@ -98,25 +74,27 @@
         <Preference
             android:title="Version"
             android:selectable="false"
-            android:summary="@string/summary_about"
+            android:summary="NUMBER HERE"
             android:key="key_version"
             />
 
-<!--
-        <Preference
-            android:summary="@string/app_version"
-            android:title="@string/title_version" />
--->
+        <!--
+                <Preference
+                    android:summary="@string/app_version"
+                    android:title="@string/title_version" />
+        -->
 
-<!--        <Preference
-            android:key="@string/key_send_feedback"
-            android:summary="@string/summary_support"
-            android:title="@string/title_send_feedback" />-->
+        <!--        <Preference
+                    android:key="@string/key_send_feedback"
+                    android:summary="@string/summary_support"
+                    android:title="@string/title_send_feedback" />-->
 
-<!--        <Preference android:title="@string/title_terms">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/url_terms" />
-        </Preference>-->
+        <!--        <Preference android:title="@string/title_terms">
+                    <intent
+                        android:action="android.intent.action.VIEW"
+                        android:data="@string/url_terms" />
+                </Preference>-->
     </PreferenceCategory>
+
+
 </PreferenceScreen>

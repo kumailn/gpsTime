@@ -91,7 +91,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MainPreferenceFragment()).commit();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Log.e(String.valueOf(preferences.getBoolean("key_asr_switch", false)), "h");
+        //Log.e(String.valueOf(preferences.getBoolean("key_asr_switch", false)), "h");
 
         //Alarm manager object initialization
         alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -102,14 +102,17 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_main);
 
-            // gallery EditText change listener
-            //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_gallery_name)));
+            addPreferencesFromResource(R.xml.pref);
+
+            //PreferenceManager.setDefaultValues(getActivity(), R.xml.pref_main, false);
+
+            //Programmatically bind selected value to summary
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_calculation_method)));
 
             // notification preference change listener
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_notifications_new_message_ringtone)));
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_calculation_method)));
+            //bindPreferenceSummaryToValue(findPreference(getString(R.string.key_calculation_method)));
 
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.key)));
 
@@ -124,8 +127,6 @@ public class SettingsActivity extends AppCompatActivity {
             });
 */
 
-            Preference mp = findPreference("key_version");
-            mp.setSummary(String.valueOf(versionNumber));
 
             Preference mp2 = findPreference(getString(R.string.key_home_location));
             mp2.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -143,6 +144,10 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            //Programmatically set the version number
+            Preference mp = findPreference("key_version");
+            mp.setSummary(String.valueOf(versionNumber));
 
             spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
                 @Override
@@ -218,6 +223,11 @@ public class SettingsActivity extends AppCompatActivity {
                                 else {
                                     Toast.makeText(getApplicationContext(), "Isha turned off", Toast.LENGTH_SHORT).show();
                                     try {dynamicIshaPendingIntent.cancel();} catch (Exception e) {e.printStackTrace();}
+                                    Intent dtC = new Intent(getApplicationContext(), prayerReceiver.class);
+                                    dtC.putExtra("Prayer", "Isha").putExtra("Type", "Cancel");
+                                    dynamicTestPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), MAGHRIB_REQUEST_CODE, dtC, PendingIntent.FLAG_UPDATE_CURRENT);
+                                    alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), dynamicTestPendingIntent);
+                                    Log.e(TAG, "Switch saved as off");
                                     //debug purposes
                                     //Test intent for debugging purposes
                                     //Intent dtC = new Intent(getApplicationContext(), prayerReceiver.class);

@@ -183,6 +183,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
         Log.e("Num Times Opened: ", String.valueOf(loadNumericInstance()));
+        if(loadNumericInstance() == 0){
+            SharedPreferences sharedPreferences = getSharedPreferences("com.kumailn.prayertimes_preferences", MODE_PRIVATE);
+            //sharedPreferences.edit().putBoolean("key_calculation_method", 0);
+        }
 
 
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -615,7 +619,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         //Local data storage
         SharedPreferences sharedPreferences = getSharedPreferences("com.kumailn.prayertime_preferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(getString(R.string.key_daylight_savings_switch), Boolean.toString(meth));
+        editor.putBoolean(getString(R.string.key_daylight_savings_switch), (meth));
         editor.commit();
     }
 
