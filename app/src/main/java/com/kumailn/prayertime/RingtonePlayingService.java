@@ -414,7 +414,7 @@ public class RingtonePlayingService extends Service  {
 
         prayerTimesDebugDatabase.execSQL("CREATE TABLE IF NOT EXISTS prayerTimes (id INTEGER PRIMARY KEY, prayerName VARCHAR, setTime VARCHAR, setAt VARCHAR)");
 
-        prayerTimesDebugDatabase.execSQL("INSERT INTO prayerTimes (prayerName, setTime, setAt) VALUES (\'" + alarmName + "\',\'" + setTime + "\',\'" + formattedDate + "\')");
+        prayerTimesDebugDatabase.execSQL("INSERT INTO prayerTimes (prayerName, setFor, setAt) VALUES (\'" + alarmName + "\',\'" + setTime + "\',\'" + formattedDate + "\')");
 
     }
 

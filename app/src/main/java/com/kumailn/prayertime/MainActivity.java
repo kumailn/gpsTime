@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         checkB.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Main2Activity.class));
+                //startActivity(new Intent(getApplicationContext(), Main2Activity.class));
                 return true;
             }
         });
